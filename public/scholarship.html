@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scholarship - ALIF Foundation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <!-- Navbar -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
+        <div class="max-w-7xl mx-auto flex items-center justify-between py-4 px-6">
+            <img src="alif-logo.png" alt="ALIF Foundation Logo" class="h-12 w-auto" />
+            <nav class="hidden md:flex flex-1 justify-center space-x-8">
+                <a href="index.html" class="text-textGray font-semibold hover:text-alifTeal transition">Home</a>
+                <a href="about.html" class="text-textGray font-semibold hover:text-alifTeal transition">About Us</a>
+                <a href="scholarships.html" class="text-textGray font-semibold hover:text-alifTeal transition">Scholarships</a>
+                <a href="programs.html" class="text-textGray font-semibold hover:text-alifTeal transition">Programs</a>
+                <a href="events.html" class="text-textGray font-semibold hover:text-alifTeal transition">Latest Events</a>
+                <a href="contact.html" class="text-textGray font-semibold hover:text-alifTeal transition">Contact</a>
+                <button class="bg-alifYellow text-alifTeal font-extrabold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-all ml-4">APPLICATION</button>
+            </nav>
+            <!-- Mobile Menu Toggle Button -->
+            <button class="md:hidden flex items-center justify-center p-2" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                <svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white w-full shadow-lg">
+            <div class="flex flex-col items-center py-4 space-y-4">
+                <a href="index.html" class="text-textGray font-semibold hover:text-alifTeal transition">Home</a>
+                <a href="about.html" class="text-textGray font-semibold hover:text-alifTeal transition">About Us</a>
+                <div class="relative group">
+                    <button class="text-textGray font-semibold hover:text-alifTeal transition flex items-center">
+                        Programs
+                        <svg class="ml-2 w-4 h-4 text-textGray" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="hidden group-hover:block absolute top-full left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg">
+                        <a href="career-counseling.html" class="block px-4 py-2 text-textGray hover:bg-gray-50 hover:text-alifTeal">Career Counseling</a>
+                        <a href="scholarship.html" class="block px-4 py-2 text-textGray hover:bg-gray-50 hover:text-alifTeal">Scholarship</a>
+                        <a href="grant-for-artisans.html" class="block px-4 py-2 text-textGray hover:bg-gray-50 hover:text-alifTeal">Grant for Artisans</a>
+                    </div>
+                </div>
+                <a href="events.html" class="text-textGray font-semibold hover:text-alifTeal transition">Latest Events</a>
+                <a href="contact.html" class="text-textGray font-semibold hover:text-alifTeal transition">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Scholarship Section -->
+    <section class="max-w-7xl mx-auto py-12 px-6">
+        <h1 class="text-3xl font-black text-alifTeal mb-6">SCHOLARSHIP</h1>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white shadow-md rounded-lg p-6" data-aos="fade-up">
+                <span class="bg-alifYellow text-white text-sm font-bold py-1 px-3 rounded-full">01</span>
+                <h2 class="text-xl font-black text-alifTeal mt-4">Secondary School</h2>
+                <p class="text-gray-700 mt-2">We cover all six years of secondary school education for deserving students.</p>
+            </div>
+            <div class="bg-white shadow-lg rounded-lg p-6 transform scale-105" data-aos="fade-up">
+                <span class="bg-alifYellow text-white text-sm font-bold py-1 px-3 rounded-full">02</span>
+                <h2 class="text-xl font-black text-alifTeal mt-4">University/Polytechnic</h2>
+                <p class="text-gray-700 mt-2">Merit-based grants for undergraduate students to achieve their dreams.</p>
+            </div>
+            <div class="bg-white shadow-md rounded-lg p-6" data-aos="fade-up">
+                <span class="bg-alifYellow text-white text-sm font-bold py-1 px-3 rounded-full">03</span>
+                <h2 class="text-xl font-black text-alifTeal mt-4">Post-Grad Mentorship</h2>
+                <p class="text-gray-700 mt-2">Guidance and mentorship for post-graduate students to excel in their careers.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Career Counseling Section -->
+    <section class="max-w-7xl mx-auto py-12 px-6">
+        <h1 class="text-3xl font-black text-alifTeal mb-6">CAREER COUNSELING</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+                <img src="counseling-session.jpg" alt="Counseling Session" class="rounded-t-full shadow-md" data-aos="fade-right">
+            </div>
+            <div class="bg-white bg-opacity-70 backdrop-blur-md p-6 rounded-lg shadow-md" data-aos="fade-left">
+                <h2 class="text-xl font-black text-alifTeal">Designing Your Future</h2>
+                <p class="text-gray-700 mt-2">ALIF provides professional aptitude testing and 1-on-1 counseling to help you make informed career choices.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Grant for Artisans Section -->
+    <section class="max-w-7xl mx-auto py-12 px-6">
+        <h1 class="text-3xl font-black text-alifTeal mb-6">GRANT FOR ARTISANS</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+                <img src="artisan-at-work.jpg" alt="Artisan at Work" class="rounded-t-full shadow-md" data-aos="fade-right">
+            </div>
+            <div>
+                <ul class="space-y-4" data-aos="fade-left">
+                    <li class="flex items-start">
+                        <span class="bg-alifGreen text-white p-2 rounded-full mr-4">✔</span>
+                        <p class="text-gray-700">Seed funding for skilled trades like mechanics, tailors, and welders.</p>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="bg-alifGreen text-white p-2 rounded-full mr-4">✔</span>
+                        <p class="text-gray-700">Provision of essential equipment to enhance productivity.</p>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="bg-alifGreen text-white p-2 rounded-full mr-4">✔</span>
+                        <p class="text-gray-700">Empowering artisans to achieve sustainable livelihoods.</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+     <!-- Footer -->
+    <footer class="bg-[#0D2C2B] text-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div>
+                    <img src="/path-to-logo.png" alt="ALIF Logo" class="mb-4">
+                    <p class="text-sm mb-6">ALIF was officially inaugurated on November 17, 2012, with a sincere desire to benefit humanity through structured charitable activities.</p>
+                    <div class="flex items-center">
+                        <input type="email" placeholder="Email Address" class="w-full px-4 py-2 text-black rounded-l-md focus:outline-none">
+                        <button class="bg-[#FFCD28] text-black px-4 py-2 rounded-r-md">Subscribe</button>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Impact Areas</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">Application</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">Football</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">School Outreach</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">Medical Outreach</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">PhotoSpeaks</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Educational Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">Secondary</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">College of Education</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">Polytechnic</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">University</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                    <ul class="space-y-2">
+                        <li><a href="tel:+2348135283434" class="hover:text-[#FFCD28] transition">(+234) 813 5283 434</a></li>
+                        <li><a href="mailto:info@alikpeafoundation.org" class="hover:text-[#FFCD28] transition">info@alikpeafoundation.org</a></li>
+                        <li>True Vine Plaza, 66b Ujoelen Road, Ekpoma, Edo State, NG</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="fixed bottom-4 right-4 bg-alifYellow text-alifTeal p-3 rounded-full shadow-md hover:bg-alifGreen">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+</body>
+</html>
