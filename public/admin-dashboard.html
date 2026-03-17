@@ -1,42 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - ALIF Foundation</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #F0FDF4;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard - ALIF Foundation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100">
-    <!-- Admin Dashboard -->
-    <header class="bg-alifTeal text-white py-4">
-        <div class="max-w-7xl mx-auto px-6">
-            <h1 class="text-2xl font-black">Welcome to the Admin Dashboard</h1>
+<body class="bg-gray-100 min-h-screen">
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-alifTeal text-white flex flex-col">
+      <div class="p-6 text-2xl font-black">ALIF Admin</div>
+      <nav class="flex-1">
+        <ul class="space-y-2 px-4">
+          <li><a href="admin-dashboard.html" class="block py-2 px-3 rounded bg-alifYellow text-alifTeal font-semibold">Dashboard</a></li>
+          <li><a href="admin-ui.html" class="block py-2 px-3 rounded hover:bg-alifYellow hover:text-alifTeal">Manage Posts</a></li>
+          <li><a href="#" id="messages-link" class="block py-2 px-3 rounded hover:bg-alifYellow hover:text-alifTeal">Messages</a></li>
+        </ul>
+      </nav>
+      <button id="logoutBtn" class="m-4 bg-alifYellow text-alifTeal font-bold py-2 rounded hover:bg-yellow-400">Logout</button>
+    </aside>
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+      <header class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-black text-alifTeal">Dashboard</h1>
+      </header>
+      <!-- Stats -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow p-6 flex flex-col items-center">
+          <div class="text-2xl font-bold text-alifTeal" id="totalPosts">0</div>
+          <div class="text-gray-500">Total Posts</div>
         </div>
-    </header>
-
-    <main class="max-w-7xl mx-auto py-12 px-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Admin UI Dashboard -->
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <h2 class="text-xl font-bold text-alifTeal mb-4">Admin UI Dashboard</h2>
-                <p class="text-gray-700 mb-4">Edit and add posts to pages, upload images, and manage content displayed on the frontend.</p>
-                <a href="#" class="bg-alifYellow text-alifTeal px-6 py-3 rounded-md hover:bg-alifGreen transition">Go to Admin UI</a>
-            </div>
-
-            <!-- Webflow Management -->
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <h2 class="text-xl font-bold text-alifTeal mb-4">Webflow Management</h2>
-                <p class="text-gray-700 mb-4">Manage all mails, chats, and the portal for future enhancements.</p>
-                <a href="#" class="bg-alifYellow text-alifTeal px-6 py-3 rounded-md hover:bg-alifGreen transition">Go to Webflow Management</a>
-            </div>
+        <div class="bg-white rounded-lg shadow p-6 flex flex-col items-center">
+          <div class="text-2xl font-bold text-alifTeal" id="totalMessages">0</div>
+          <div class="text-gray-500">Total Messages</div>
         </div>
+        <div class="bg-white rounded-lg shadow p-6 flex flex-col items-center">
+          <div class="text-2xl font-bold text-alifTeal" id="latestCategory">-</div>
+          <div class="text-gray-500">Latest Category</div>
+        </div>
+      </div>
+      <!-- Latest Posts Table -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <h2 class="text-xl font-bold mb-4 text-alifTeal">Latest Posts</h2>
+        <div class="overflow-x-auto">
+          <table class="min-w-full">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="py-2 px-4 text-left">Title</th>
+                <th class="py-2 px-4 text-left">Category</th>
+                <th class="py-2 px-4 text-left">Created</th>
+              </tr>
+            </thead>
+            <tbody id="latestPostsTable"></tbody>
+          </table>
+        </div>
+      </div>
     </main>
+  </div>
+  <script>
+    // Redirect if not authenticated
+    const token = localStorage.getItem('token');
+    if (!token) window.location.href = 'admin-dashboard.html';
+
+    // Logout
+    document.getElementById('logoutBtn').onclick = function() {
+      localStorage.removeItem('token');
+      window.location.href = 'admin-dashboard.html';
+    };
+
+    // Fetch dashboard data
+    async function fetchDashboard() {
+      try {
+        // Posts
+        const postsRes = await fetch('/api/posts', {
+          headers: { Authorization: 'Bearer ' + token }
+        });
+        const postsData = await postsRes.json();
+        const posts = postsData.data || [];
+        document.getElementById('totalPosts').textContent = posts.length;
+        document.getElementById('latestCategory').textContent = posts[0]?.category || '-';
+        const table = document.getElementById('latestPostsTable');
+        table.innerHTML = '';
+        posts.slice(0, 5).forEach(post => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td class="py-2 px-4">${post.title}</td>
+            <td class="py-2 px-4">${post.category}</td>
+            <td class="py-2 px-4">${new Date(post.created_at).toLocaleString()}</td>
+          `;
+          table.appendChild(tr);
+        });
+        // Messages
+        const msgRes = await fetch('/api/messages', {
+          headers: { Authorization: 'Bearer ' + token }
+        });
+        const msgData = await msgRes.json();
+        document.getElementById('totalMessages').textContent = msgData.data?.length || 0;
+      } catch (err) {
+        alert('Failed to load dashboard data.');
+      }
+    }
+    fetchDashboard();
+  </script>
 </body>
 </html>
