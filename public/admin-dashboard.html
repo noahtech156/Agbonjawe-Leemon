@@ -56,52 +56,99 @@
           </table>
         </div>
       </div>
+      <!-- Scholarship Applications Section -->
+      <div class="bg-white rounded-lg shadow p-6 mt-8">
+        <h2 class="text-xl font-bold mb-4 text-alifTeal">Scholarship Applications</h2>
+        <table class="min-w-full">
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="py-2 px-4 text-left">Name</th>
+              <th class="py-2 px-4 text-left">Email</th>
+              <th class="py-2 px-4 text-left">Status</th>
+              <th class="py-2 px-4 text-left">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="applicationsTable"></tbody>
+        </table>
+      </div>
+
+      <script>
+        // Redirect if not authenticated
+        const token = localStorage.getItem('token');
+        if (!token) window.location.href = 'admin-dashboard.html';
+
+        // Logout
+        document.getElementById('logoutBtn').onclick = function() {
+          localStorage.removeItem('token');
+          window.location.href = 'admin-dashboard.html';
+        };
+
+        // Fetch dashboard data
+        async function fetchDashboard() {
+          try {
+            // Posts
+            const postsRes = await fetch('/api/posts', {
+              headers: { Authorization: 'Bearer ' + token }
+            });
+            const postsData = await postsRes.json();
+            const posts = postsData.data || [];
+            document.getElementById('totalPosts').textContent = posts.length;
+            document.getElementById('latestCategory').textContent = posts[0]?.category || '-';
+            const table = document.getElementById('latestPostsTable');
+            table.innerHTML = '';
+            posts.slice(0, 5).forEach(post => {
+              const tr = document.createElement('tr');
+              tr.innerHTML = `
+                <td class="py-2 px-4">${post.title}</td>
+                <td class="py-2 px-4">${post.category}</td>
+                <td class="py-2 px-4">${new Date(post.created_at).toLocaleString()}</td>
+              `;
+              table.appendChild(tr);
+            });
+            // Messages
+            const msgRes = await fetch('/api/messages', {
+              headers: { Authorization: 'Bearer ' + token }
+            });
+            const msgData = await msgRes.json();
+            document.getElementById('totalMessages').textContent = msgData.data?.length || 0;
+          } catch (err) {
+            alert('Failed to load dashboard data.');
+          }
+        }
+
+        async function fetchApplications() {
+          const res = await fetch('/api/admin/applications');
+          const applications = await res.json();
+          const table = document.getElementById('applicationsTable');
+          table.innerHTML = '';
+          applications.forEach(app => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td class="py-2 px-4">${app.fullName}</td>
+              <td class="py-2 px-4">${app.email}</td>
+              <td class="py-2 px-4">${app.status}</td>
+              <td class="py-2 px-4">
+                <button onclick="updateStatus('${app._id}', 'Approved')" class="bg-green-500 text-white px-3 py-1 rounded">Approve</button>
+                <button onclick="updateStatus('${app._id}', 'Declined')" class="bg-red-500 text-white px-3 py-1 rounded">Decline</button>
+              </td>
+            `;
+            table.appendChild(row);
+          });
+        }
+
+        async function updateStatus(id, status) {
+          await fetch(`/api/admin/applications/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status })
+          });
+          fetchApplications();
+        }
+
+        fetchDashboard();
+        fetchApplications();
+      </script>
     </main>
   </div>
-  <script>
-    // Redirect if not authenticated
-    const token = localStorage.getItem('token');
-    if (!token) window.location.href = 'admin-dashboard.html';
-
-    // Logout
-    document.getElementById('logoutBtn').onclick = function() {
-      localStorage.removeItem('token');
-      window.location.href = 'admin-dashboard.html';
-    };
-
-    // Fetch dashboard data
-    async function fetchDashboard() {
-      try {
-        // Posts
-        const postsRes = await fetch('/api/posts', {
-          headers: { Authorization: 'Bearer ' + token }
-        });
-        const postsData = await postsRes.json();
-        const posts = postsData.data || [];
-        document.getElementById('totalPosts').textContent = posts.length;
-        document.getElementById('latestCategory').textContent = posts[0]?.category || '-';
-        const table = document.getElementById('latestPostsTable');
-        table.innerHTML = '';
-        posts.slice(0, 5).forEach(post => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td class="py-2 px-4">${post.title}</td>
-            <td class="py-2 px-4">${post.category}</td>
-            <td class="py-2 px-4">${new Date(post.created_at).toLocaleString()}</td>
-          `;
-          table.appendChild(tr);
-        });
-        // Messages
-        const msgRes = await fetch('/api/messages', {
-          headers: { Authorization: 'Bearer ' + token }
-        });
-        const msgData = await msgRes.json();
-        document.getElementById('totalMessages').textContent = msgData.data?.length || 0;
-      } catch (err) {
-        alert('Failed to load dashboard data.');
-      }
-    }
-    fetchDashboard();
-  </script>
 </body>
 </html>

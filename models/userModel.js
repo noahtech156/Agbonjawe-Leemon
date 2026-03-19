@@ -1,30 +1,33 @@
 const fs = require('fs');
 const path = require('path');
-const dbPath = path.join(__dirname, '../database.json');
 
-function readDB() {
-  if (!fs.existsSync(dbPath)) fs.writeFileSync(dbPath, '[]');
-  return JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
+const databasePath = path.join(__dirname, '../database.json');
+
+function readDatabase() {
+    const data = fs.readFileSync(databasePath, 'utf-8');
+    return JSON.parse(data);
 }
 
-function writeDB(data) {
-  fs.writeFileSync(dbPath, JSON.stringify(data, null, 2));
+function writeDatabase(data) {
+    fs.writeFileSync(databasePath, JSON.stringify(data, null, 2));
 }
 
-exports.getUserByUsername = username => readDB().find(item => item.type === 'user' && item.username === username);
-
-exports.createUser = user => {
-  const db = readDB();
-  db.push({ ...user, type: 'user' });
-  writeDB(db);
-  return user;
+exports.getUserByEmail = (email) => {
+    const database = readDatabase();
+    return database.users.find(user => user.email === email);
 };
 
-exports.updateUserPassword = (username, newHash) => {
-  const db = readDB();
-  const idx = db.findIndex(item => item.type === 'user' && item.username === username);
-  if (idx === -1) return null;
-  db[idx].password = newHash;
-  writeDB(db);
-  return db[idx];
+exports.createUser = (user) => {
+    const database = readDatabase();
+    database.users.push(user);
+    writeDatabase(database);
+};
+
+exports.updateUserPassword = (email, newPassword) => {
+    const database = readDatabase();
+    const user = database.users.find(user => user.email === email);
+    if (user) {
+        user.password = newPassword;
+        writeDatabase(database);
+    }
 };

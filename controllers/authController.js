@@ -3,26 +3,52 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 exports.login = async (req, res) => {
-  // Automatically redirect to dashboard without login
-  res.redirect('/admin-dashboard.html');
+    try {
+        const { email, password } = req.body;
+
+        // Check if user exists
+        const user = userModel.getUserByEmail(email);
+        if (!user) {
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }
+
+        // Validate password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }
+
+        // Generate token
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+
+        res.status(200).json({ token });
+    } catch (error) {
+        res.status(500).json({ error: 'An error occurred during login' });
+    }
 };
 
 exports.register = async (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password) return res.status(400).json({ success: false, message: 'Username and password required' });
-  if (userModel.getUserByUsername(username)) return res.status(400).json({ success: false, message: 'User exists' });
-  const hash = await bcrypt.hash(password, 10);
-  const user = { id: Date.now().toString(), username, password: hash };
-  userModel.createUser(user);
-  res.status(201).json({ success: true, data: { username: user.username } });
-};
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).json({ error: 'Email and password are required' });
+        }
 
-exports.resetPassword = async (req, res) => {
-  const { username, newPassword } = req.body;
-  const user = userModel.getUserByUsername(username);
-  if (!user) return res.status(404).json({ success: false, message: 'User not found' });
-  const bcrypt = require('bcryptjs');
-  const hash = await bcrypt.hash(newPassword, 10);
-  userModel.updateUserPassword(username, hash);
-  res.json({ success: true, message: 'Password reset successful' });
+        // Check if user already exists
+        const existingUser = userModel.getUserByEmail(email);
+        if (existingUser) {
+            return res.status(400).json({ error: 'User already exists' });
+        }
+
+        // Hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create user
+        const newUser = { id: Date.now().toString(), email, password: hashedPassword };
+        userModel.createUser(newUser);
+
+        res.status(201).json({ message: 'User registered successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'An error occurred during registration' });
+    }
 };

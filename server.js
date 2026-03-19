@@ -7,7 +7,10 @@ const postRoutes = require('./routes/postRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const authRoutes = require('./routes/authRoutes');
 const scholarshipRoutes = require('./routes/scholarshipRoutes');
+const userRoutes = require('./routes/userRoutes');
 const errorHandler = require('./middleware/errorHandler');
+const pool = require('./config/database');
+const eventRoutes = require('./routes/eventRoutes');
 
 const app = express();
 
@@ -23,9 +26,16 @@ app.use('/api/posts', postRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/scholarships', scholarshipRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/events', eventRoutes);
 
 // Error Handler
 app.use(errorHandler);
+
+// Test MySQL connection
+pool.getConnection()
+    .then(() => console.log('Connected to MySQL database'))
+    .catch(err => console.error('MySQL connection error:', err));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
