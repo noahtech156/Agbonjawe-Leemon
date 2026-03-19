@@ -7,7 +7,7 @@ exports.login = async (req, res) => {
         const { email, password } = req.body;
 
         // Check if user exists
-        const user = userModel.getUserByEmail(email);
+        const user = await userModel.getUserByEmail(email);
         if (!user) {
             return res.status(401).json({ error: 'Invalid email or password' });
         }
@@ -35,7 +35,7 @@ exports.register = async (req, res) => {
         }
 
         // Check if user already exists
-        const existingUser = userModel.getUserByEmail(email);
+        const existingUser = await userModel.getUserByEmail(email);
         if (existingUser) {
             return res.status(400).json({ error: 'User already exists' });
         }
@@ -43,9 +43,10 @@ exports.register = async (req, res) => {
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create user
-        const newUser = { id: Date.now().toString(), email, password: hashedPassword };
-        userModel.createUser(newUser);
+        // Create user (add name if available, else use email as name)
+        const name = req.body.name || email;
+        const newUser = { name, email, password: hashedPassword };
+        await userModel.createUser(newUser);
 
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {

@@ -1,33 +1,26 @@
-const fs = require('fs');
-const path = require('path');
+const pool = require('../config/database');
 
-const databasePath = path.join(__dirname, '../database.json');
-
-function readDatabase() {
-    const data = fs.readFileSync(databasePath, 'utf-8');
-    return JSON.parse(data);
-}
-
-function writeDatabase(data) {
-    fs.writeFileSync(databasePath, JSON.stringify(data, null, 2));
-}
-
-exports.getUserByEmail = (email) => {
-    const database = readDatabase();
-    return database.users.find(user => user.email === email);
+// Get user by email
+exports.getUserByEmail = async (email) => {
+    const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
+    return rows[0] || null;
 };
 
-exports.createUser = (user) => {
-    const database = readDatabase();
-    database.users.push(user);
-    writeDatabase(database);
+// Create a new user
+exports.createUser = async (user) => {
+    const { name, email, password } = user;
+    const [result] = await pool.query(
+        'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
+        [name, email, password]
+    );
+    return { id: result.insertId, ...user };
 };
 
-exports.updateUserPassword = (email, newPassword) => {
-    const database = readDatabase();
-    const user = database.users.find(user => user.email === email);
-    if (user) {
-        user.password = newPassword;
-        writeDatabase(database);
-    }
+// Update user password
+exports.updateUserPassword = async (email, newPassword) => {
+    const [result] = await pool.query(
+        'UPDATE users SET password = ? WHERE email = ?',
+        [newPassword, email]
+    );
+    return result.affectedRows > 0;
 };

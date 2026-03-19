@@ -1,21 +1,17 @@
-const fs = require('fs');
-const path = require('path');
-const dbPath = path.join(__dirname, '../database.json');
+const pool = require('../config/database');
 
-function readDB() {
-  if (!fs.existsSync(dbPath)) fs.writeFileSync(dbPath, '[]');
-  return JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
-}
-
-function writeDB(data) {
-  fs.writeFileSync(dbPath, JSON.stringify(data, null, 2));
-}
-
-exports.createMessage = msg => {
-  const db = readDB();
-  db.push({ ...msg, type: 'contact' });
-  writeDB(db);
-  return msg;
+// Create a new contact message
+exports.createMessage = async (msg) => {
+  const { name, email, message } = msg;
+  const [result] = await pool.query(
+    'INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)',
+    [name, email, message]
+  );
+  return { id: result.insertId, ...msg };
 };
 
-exports.getAllMessages = () => readDB().filter(item => item.type === 'contact');
+// Get all contact messages
+exports.getAllMessages = async () => {
+  const [rows] = await pool.query('SELECT * FROM contacts ORDER BY id DESC');
+  return rows;
+};

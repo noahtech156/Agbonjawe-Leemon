@@ -1,46 +1,60 @@
-const fs = require('fs');
-const path = require('path');
-const dbPath = path.join(__dirname, '../database.json');
+const pool = require('../config/database');
 
-function readDB() {
-  if (!fs.existsSync(dbPath)) fs.writeFileSync(dbPath, '[]');
-  return JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
-}
-
-function writeDB(data) {
-  fs.writeFileSync(dbPath, JSON.stringify(data, null, 2));
-}
-
-exports.getAllPosts = (filter = {}, page = 1, limit = 10) => {
-  let posts = readDB().filter(item => item.type === 'post');
-  if (filter.category) posts = posts.filter(p => p.category === filter.category);
-  const total = posts.length;
-  const paginated = posts.slice((page - 1) * limit, page * limit);
-  return { total, posts: paginated };
+// Get all posts with optional category filter and pagination
+exports.getAllPosts = async (filter = {}, page = 1, limit = 10) => {
+  let query = 'SELECT * FROM posts';
+  const params = [];
+  if (filter.category) {
+    query += ' WHERE category = ?';
+    params.push(filter.category);
+  }
+  query += ' ORDER BY id DESC LIMIT ? OFFSET ?';
+  params.push(Number(limit), (page - 1) * limit);
+  const [rows] = await pool.query(query, params);
+  const [[{ total }]] = await pool.query(
+    filter.category
+      ? 'SELECT COUNT(*) as total FROM posts WHERE category = ?'
+      : 'SELECT COUNT(*) as total FROM posts',
+    filter.category ? [filter.category] : []
+  );
+  return { total, posts: rows };
 };
 
-exports.getPostById = id => readDB().find(item => item.type === 'post' && item.id === id);
-
-exports.createPost = post => {
-  const db = readDB();
-  db.push({ ...post, type: 'post' });
-  writeDB(db);
-  return post;
+// Get post by ID
+exports.getPostById = async (id) => {
+  const [rows] = await pool.query('SELECT * FROM posts WHERE id = ?', [id]);
+  return rows[0] || null;
 };
 
-exports.updatePost = (id, data) => {
-  const db = readDB();
-  const idx = db.findIndex(item => item.type === 'post' && item.id === id);
-  if (idx === -1) return null;
-  db[idx] = { ...db[idx], ...data };
-  writeDB(db);
-  return db[idx];
+// Create a new post
+exports.createPost = async (post) => {
+  const { title, content, category, author } = post;
+  const [result] = await pool.query(
+    'INSERT INTO posts (title, content, category, author) VALUES (?, ?, ?, ?)',
+    [title, content, category, author]
+  );
+  return { id: result.insertId, ...post };
 };
 
-exports.deletePost = id => {
-  let db = readDB();
-  const before = db.length;
-  db = db.filter(item => !(item.type === 'post' && item.id === id));
-  writeDB(db);
-  return db.length < before;
+// Update a post
+exports.updatePost = async (id, data) => {
+  const fields = [];
+  const values = [];
+  for (const key in data) {
+    fields.push(`${key} = ?`);
+    values.push(data[key]);
+  }
+  if (!fields.length) return null;
+  values.push(id);
+  const [result] = await pool.query(
+    `UPDATE posts SET ${fields.join(', ')} WHERE id = ?`,
+    values
+  );
+  return result.affectedRows > 0;
+};
+
+// Delete a post
+exports.deletePost = async (id) => {
+  const [result] = await pool.query('DELETE FROM posts WHERE id = ?', [id]);
+  return result.affectedRows > 0;
 };
