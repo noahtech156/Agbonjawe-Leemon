@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ALIF Foundation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <header class="w-full bg-[#194341] py-4 px-6 flex items-center justify-between shadow-md">
+        <img src="alif-logo.png" alt="ALIF Foundation Logo" class="h-12 w-auto" />
+        <a href="index.html" class="bg-[#FFCD28] text-[#194341] font-bold text-lg px-6 py-2 rounded-full shadow hover:bg-yellow-300 transition-all">Home</a>
+    </header>
+    <main class="flex flex-1 items-center justify-center text-lg min-h-screen bg-gray-50">
+    <div class="w-full max-w-lg bg-white rounded-3xl shadow-2xl p-8 sm:p-10 mx-auto flex flex-col justify-center">
+            <h2 class="text-3xl font-bold text-alifTeal mb-6 text-center">User Login</h2>
+            <form id="loginForm" class="space-y-8">
+                <div>
+                    <label for="emailOrPhone" class="block text-base font-medium text-gray-700">Email or Phone Number</label>
+                    <input type="text" id="emailOrPhone" name="emailOrPhone" class="mt-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-alifTeal focus:border-alifTeal text-lg" required>
+                </div>
+                <div>
+                    <label for="password" class="block text-base font-medium text-gray-700">Password</label>
+                    <input type="password" id="password" name="password" class="mt-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-alifTeal focus:border-alifTeal text-lg" required>
+                </div>
+                <button type="submit" class="w-full bg-[#FFCD28] text-black font-bold py-4 px-4 rounded-md shadow-md hover:bg-yellow-300 transition text-2xl">Login</button>
+                <p id="loginError" class="text-red-600 text-base mt-2 hidden">Invalid credentials. Please try again.</p>
+            </form>
+        </div>
+    </main>
+    <script>
+        // Dummy users for demonstration
+        const users = [
+            { email: "user1@example.com", phone: "08012345678", password: "password1", name: "User One", details: { scholarship: "Approved", grants: "None" } },
+            { email: "user2@example.com", phone: "08087654321", password: "password2", name: "User Two", details: { scholarship: "Pending", grants: "Artisan Grant" } }
+        ];
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const emailOrPhone = document.getElementById('emailOrPhone').value.trim();
+            const password = document.getElementById('password').value;
+            const user = users.find(u => (u.email === emailOrPhone || u.phone === emailOrPhone) && u.password === password);
+            if (user) {
+                // Store user details in localStorage for dashboard
+                localStorage.setItem('alifUser', JSON.stringify(user));
+                window.location.href = 'user-dashboard.html';
+            } else {
+                document.getElementById('loginError').classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard - ALIF Foundation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+</head>
+<body class="bg-white">
+  <main class="relative w-screen min-h-screen">
+    <div class="max-w-5xl w-full mx-auto px-4 py-12 flex flex-col md:flex-row gap-8">
+      <!-- Sidebar -->
+      <aside class="w-full md:w-64 bg-white/80 backdrop-blur-lg shadow-xl p-6 flex flex-col mb-8 md:mb-0">
+        <h2 class="text-2xl font-extrabold text-alifTeal mb-8">Dashboard</h2>
+        <nav class="flex flex-col gap-4">
+          <a href="#profile" class="font-semibold text-alifTeal hover:underline">Profile</a>
+          <a href="#status" class="font-semibold text-alifTeal hover:underline">Application Status</a>
+          <a href="disbursement-form.html" class="font-semibold text-alifTeal hover:underline">Disbursement Form</a>
+          <a href="disbursement-history.html" class="font-semibold text-alifTeal hover:underline">Disbursement History</a>
+        </nav>
+      </aside>
+      <!-- Main Content -->
+      <section class="flex-1">
+        <section id="profile" class="mb-12">
+          <h3 class="text-xl font-bold mb-4">Profile</h3>
+          <form id="profileForm" class="space-y-4 max-w-md">
+            <div>
+              <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+              <input type="text" id="name" name="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-alifTeal focus:border-alifTeal" required>
+            </div>
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+              <input type="email" id="email" name="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-alifTeal focus:border-alifTeal" required readonly>
+            </div>
+            <button type="submit" class="bg-alifTeal text-white font-bold py-2 px-4 rounded-md shadow-md hover:bg-alifGreen transition">Update Profile</button>
+            <div id="profileMessage" class="mt-2 text-center font-semibold"></div>
+          </form>
+        </section>
+        <section id="status" class="mb-12">
+          <h3 class="text-xl font-bold mb-4">Application Status</h3>
+          <div id="applicationStatus" class="p-4 bg-white/70 rounded shadow text-center text-lg font-semibold"></div>
+        </section>
+      </section>
+    </div>
+  </main>
+  <script>
+    // TODO: Add JS to fetch and update profile, fetch application status
+  </script>
+  <footer class="bg-[#0D2C2B] text-white py-16">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+        <!-- Column 1: Brand & Mission -->
+        <div>
+          <img src="/path-to-logo.png" alt="ALIF Logo" class="mb-4">
+          <p class="text-sm mb-6">ALIF was officially inaugurated on November 17, 2012, with a sincere desire to benefit humanity through structured charitable activities.</p>
+          <div class="flex items-center">
+            <input type="email" placeholder="Email Address" class="w-full px-4 py-2 text-black rounded-l-md focus:outline-none">
+            <button class="bg-[#FFCD28] text-black px-4 py-2 rounded-r-md">Subscribe</button>
+          </div>
+        </div>
+        <!-- Column 2: Quick Links (Programs) -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Impact Areas</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-[#FFCD28] transition">Application</a></li>
+            <li><a href="#" class="hover:text-[#FFCD28] transition">Football</a></li>
+            <li><a href="#" class="hover:text-[#FFCD28] transition">School Outreach</a></li>
+            <li><a href="#" class="hover:text-[#FFCD28] transition">Medical Outreach</a></li>
+            <li><a href="#" class="hover:text-[#FFCD28] transition">PhotoSpeaks</a></li>
+          </ul>
+        </div>
+        <!-- Column 3: Scholarship Tracks -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Educational Support</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-[#FFCD28] transition">Secondary</a></li>
+            <li><a href="#" class="hover:text-[#FFCD28] transition">College of Education</a></li>
+            <li><a href="#" class="hover:text-[#FFCD28] transition">Polytechnic</a></li>
+            <li><a href="#" class="hover:text-[#FFCD28] transition">University</a></li>
+          </ul>
+        </div>
+        <!-- Column 4: Connect -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+          <ul class="space-y-2">
+            <li><a href="tel:+2348135283434" class="hover:text-[#FFCD28] transition">(+234) 813 5283 434</a></li>
+            <li><a href="mailto:info@alikpeafoundation.org" class="hover:text-[#FFCD28] transition">info@alikpeafoundation.org</a></li>
+            <li>True Vine Plaza, 66b Ujoelen Road, Ekpoma, Edo State, NG</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Social Icons -->
+      <div class="flex justify-center space-x-4 mt-12">
+        <a href="#" class="bg-white bg-opacity-10 p-2 rounded-full hover:bg-opacity-20 transition">
+          <img src="/path-to-facebook-icon.png" alt="Facebook" class="w-6 h-6">
+        </a>
+        <a href="#" class="bg-white bg-opacity-10 p-2 rounded-full hover:bg-opacity-20 transition">
+          <img src="/path-to-twitter-icon.png" alt="Twitter" class="w-6 h-6">
+        </a>
+        <a href="#" class="bg-white bg-opacity-10 p-2 rounded-full hover:bg-opacity-20 transition">
+          <img src="/path-to-instagram-icon.png" alt="Instagram" class="w-6 h-6">
+        </a>
+        <a href="#" class="bg-white bg-opacity-10 p-2 rounded-full hover:bg-opacity-20 transition">
+          <img src="/path-to-pinterest-icon.png" alt="Pinterest" class="w-6 h-6">
+        </a>
+        <a href="#" class="bg-white bg-opacity-10 p-2 rounded-full hover:bg-opacity-20 transition">
+          <img src="/path-to-youtube-icon.png" alt="YouTube" class="w-6 h-6">
+        </a>
+      </div>
+      <!-- Copyright Bar -->
+      <div class="mt-12 border-t border-white border-opacity-20 pt-4 text-center text-sm">
+        <p>Copyright © 2026 AlikpeaFoundation. All rights reserved by Noahtech.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

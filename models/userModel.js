@@ -1,3 +1,8 @@
+// Get user by id
+exports.getUserById = async (id) => {
+    const [rows] = await pool.query('SELECT * FROM users WHERE id = ?', [id]);
+    return rows[0] || null;
+};
 const pool = require('../config/database');
 
 // Get user by email

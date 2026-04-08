@@ -1,25 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    </style>
+            <style>
+                    /* The News Ticker (Moving Headline) */
+                    @keyframes marquee {
+                        0% { transform: translateX(100%); }
+                        100% { transform: translateX(-100%); }
+                    }
+                    .animate-marquee {
+                        display: inline-block;
+                        white-space: nowrap;
+                        animation: marquee 25s linear infinite;
+                    }
+                    .animate-marquee:hover { animation-play-state: paused; }
+            </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scholarship - ALIF Foundation</title>
     <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            alifTeal: '#194341',
+                            alifYellow: '#FFCD28',
+                            alifGreen: '#2CB770',
+                            textGray: '#5F6973',
+                        }
+                    }
+                }
+            }
+        </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gray-100">
-    <!-- Navbar -->
+<body class="bg-white">
+            <div class="bg-alifTeal py-2 overflow-hidden border-b border-white/10">
+                    <div class="animate-marquee text-white text-xs font-bold uppercase tracking-[0.2em]">
+                        LATEST NEWS: ALIF Scholarship Application for 2026 now open • Chief Dr. Leemon Ikpea receives humanitarian award • Mentoring session scheduled for next week •
+                    </div>
+            </div>
     <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
         <div class="max-w-7xl mx-auto flex items-center justify-between py-4 px-6">
             <img src="alif-logo.png" alt="ALIF Foundation Logo" class="h-12 w-auto" />
             <nav class="hidden md:flex flex-1 justify-center space-x-8">
-                <a href="index.html" class="text-textGray font-semibold hover:text-alifTeal transition">Home</a>
-                <a href="about.html" class="text-textGray font-semibold hover:text-alifTeal transition">About Us</a>
-                <a href="scholarships.html" class="text-textGray font-semibold hover:text-alifTeal transition">Scholarships</a>
-                <a href="programs.html" class="text-textGray font-semibold hover:text-alifTeal transition">Programs</a>
-                <a href="events.html" class="text-textGray font-semibold hover:text-alifTeal transition">Latest Events</a>
-                <a href="contact.html" class="text-textGray font-semibold hover:text-alifTeal transition">Contact</a>
-                <button class="bg-alifYellow text-alifTeal font-extrabold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-all ml-4">APPLICATION</button>
+                                <a href="index.html" class="text-textGray font-semibold hover:text-alifTeal transition">Home</a>
+                                <a href="about.html" class="text-textGray font-semibold hover:text-alifTeal transition">About Us</a>
+                                <div class="relative group">
+                                    <button class="text-textGray font-semibold hover:text-alifTeal transition flex items-center">
+                                        Programs
+                                        <svg class="ml-2 w-4 h-4 text-textGray" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </button>
+                                    <div class="hidden group-hover:block absolute top-full left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                                        <a href="grant-for-artisans.html" class="block px-4 py-2 text-textGray hover:bg-gray-50 hover:text-alifTeal">Grant for Artisans</a>
+                                        <a href="scholarship.html" class="block px-4 py-2 text-textGray hover:bg-gray-50 hover:text-alifTeal">Scholarship</a>
+                                        <a href="career-counseling.html" class="block px-4 py-2 text-textGray hover:bg-gray-50 hover:text-alifTeal">Career Counseling</a>
+                                    </div>
+                                </div>
+                                <a href="events.html" class="text-textGray font-semibold hover:text-alifTeal transition">Latest Events</a>
+                                <a href="contact.html" class="text-textGray font-semibold hover:text-alifTeal transition">Contact</a>
+                                <button class="bg-alifYellow text-alifTeal font-extrabold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-all ml-4">APPLICATION</button>
+                        <a href="user-login.html" class="bg-alifYellow text-alifTeal font-extrabold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-all ml-4">LOGIN</a>
             </nav>
             <!-- Mobile Menu Toggle Button -->
             <button class="md:hidden flex items-center justify-center p-2" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
@@ -30,25 +74,25 @@
         </div>
         <!-- Mobile Menu Dropdown -->
         <div id="mobile-menu" class="md:hidden hidden bg-white w-full shadow-lg">
-            <div class="flex flex-col items-center py-4 space-y-4">
-                <a href="index.html" class="text-textGray font-semibold hover:text-alifTeal transition">Home</a>
-                <a href="about.html" class="text-textGray font-semibold hover:text-alifTeal transition">About Us</a>
-                <div class="relative group">
-                    <button class="text-textGray font-semibold hover:text-alifTeal transition flex items-center">
-                        Programs
-                        <svg class="ml-2 w-4 h-4 text-textGray" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                    <div class="hidden group-hover:block absolute top-full left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg">
-                        <a href="career-counseling.html" class="block px-4 py-2 text-textGray hover:bg-gray-50 hover:text-alifTeal">Career Counseling</a>
-                        <a href="scholarship.html" class="block px-4 py-2 text-textGray hover:bg-gray-50 hover:text-alifTeal">Scholarship</a>
-                        <a href="grant-for-artisans.html" class="block px-4 py-2 text-textGray hover:bg-gray-50 hover:text-alifTeal">Grant for Artisans</a>
-                    </div>
-                </div>
-                <a href="events.html" class="text-textGray font-semibold hover:text-alifTeal transition">Latest Events</a>
-                <a href="contact.html" class="text-textGray font-semibold hover:text-alifTeal transition">Contact</a>
-            </div>
+                        <div class="flex flex-col items-center py-4 space-y-4">
+                                <a href="index.html" class="text-textGray font-semibold hover:text-alifTeal transition">Home</a>
+                                <a href="about.html" class="text-textGray font-semibold hover:text-alifTeal transition">About Us</a>
+                                <div class="relative group w-full flex flex-col items-center">
+                                    <button class="text-textGray font-semibold hover:text-alifTeal transition flex items-center w-full justify-center" onclick="document.getElementById('mobile-programs-dropdown').classList.toggle('hidden')">
+                                        Programs
+                                        <svg class="ml-2 w-4 h-4 text-textGray" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </button>
+                                    <div id="mobile-programs-dropdown" class="hidden w-56 bg-white border border-gray-200 rounded-lg shadow-lg mt-2">
+                                        <a href="grant-for-artisans.html" class="block px-4 py-2 text-textGray hover:bg-gray-50 hover:text-alifTeal">Grant for Artisans</a>
+                                        <a href="scholarship.html" class="block px-4 py-2 text-textGray hover:bg-gray-50 hover:text-alifTeal">Scholarship</a>
+                                        <a href="career-counseling.html" class="block px-4 py-2 text-textGray hover:bg-gray-50 hover:text-alifTeal">Career Counseling</a>
+                                    </div>
+                                </div>
+                                <a href="events.html" class="text-textGray font-semibold hover:text-alifTeal transition">Latest Events</a>
+                                <a href="contact.html" class="text-textGray font-semibold hover:text-alifTeal transition">Contact</a>
+                        </div>
         </div>
     </header>
 
@@ -56,7 +100,27 @@
     <section class="hero-section relative">
         <div class="hero-overlay py-20 text-center text-white">
             <h1 class="text-4xl font-black uppercase" data-aos="fade-up">Investing in Academic Excellence</h1>
-            <a href="#guidelines" class="mt-6 inline-block bg-alifYellow text-alifTeal font-bold px-6 py-3 rounded-full shadow-md hover:bg-alifGreen transition">Apply Now</a>
+        </div>
+    </section>
+
+    <!-- Cheque Awarding Photos Section -->
+    <section class="max-w-4xl mx-auto py-8 px-4 flex flex-col md:flex-row gap-8 items-center">
+        <div class="flex-1">
+            <img src="cheque1.jpg" alt="Cheque Presentation 1" class="w-full h-64 object-cover rounded-xl shadow-md mb-4 md:mb-0" />
+        </div>
+        <div class="flex-1">
+            <img src="cheque2.jpg" alt="Cheque Presentation 2" class="w-full h-64 object-cover rounded-xl shadow-md" />
+        </div>
+    </section>
+
+    <!-- Relatable Content Section -->
+    <section class="max-w-3xl mx-auto py-8 px-4">
+        <h2 class="text-2xl font-bold text-alifTeal mb-4">Empowering Dreams Through Education</h2>
+        <p class="text-gray-700 mb-4">The ALIF Foundation Scholarship is more than just financial support—it's a commitment to nurturing the next generation of leaders, innovators, and change-makers. We believe that every child, regardless of background, deserves the opportunity to pursue their academic dreams and reach their full potential.</p>
+        <p class="text-gray-700 mb-4">Our scholarship program has transformed the lives of countless students, enabling them to attend school, excel in their studies, and give back to their communities. From covering tuition fees to providing mentorship and resources, ALIF stands by our scholars every step of the way.</p>
+        <div class="bg-gray-50 rounded-lg p-6 shadow mt-6">
+            <p class="text-gray-700 mb-2">“I never thought I could go to university, but the ALIF scholarship made it possible. Now, I’m studying to become a doctor and hope to help others in my community.” <span class="block text-sm text-alifGreen">— Blessing, Scholarship Recipient</span></p>
+            <p class="text-gray-700">“The support from ALIF Foundation gave me the confidence to pursue my dreams. I am grateful for the opportunity to learn and grow.” <span class="block text-sm text-alifGreen">— Daniel, Beneficiary</span></p>
         </div>
     </section>
 
@@ -87,35 +151,76 @@
         </div>
     </section>
 
-    <!-- Scholarship Application Form -->
-    <section id="scholarship-form" class="max-w-4xl mx-auto py-12 px-6 bg-white shadow-md rounded-lg">
-        <h2 class="text-2xl font-bold text-alifTeal mb-6">Scholarship Application Form</h2>
-        <form id="applicationForm" class="space-y-6">
-            <div>
-                <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name</label>
-                <input type="text" id="fullName" name="fullName" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-alifTeal focus:border-alifTeal" required>
-            </div>
-            <div>
-                <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-                <input type="email" id="email" name="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-alifTeal focus:border-alifTeal" required>
-            </div>
-            <div>
-                <label for="documents" class="block text-sm font-medium text-gray-700">Upload Documents</label>
-                <input type="file" id="documents" name="documents" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-alifTeal focus:border-alifTeal" required>
-            </div>
-            <button type="submit" class="w-full bg-alifTeal text-white font-bold py-2 px-4 rounded-md shadow-md hover:bg-alifGreen transition">Submit Application</button>
-        </form>
-    </section>
 
-    <!-- Footer -->
-    <footer class="bg-alifTeal text-white py-6">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex justify-between items-center">
-                <p class="text-sm">&copy; 2026 ALIF Foundation. All rights reserved.</p>
-                <div class="flex space-x-4">
-                    <a href="#" class="hover:text-alifYellow">Privacy Policy</a>
-                    <a href="#" class="hover:text-alifYellow">Terms of Service</a>
+    <!-- Apply Now Button at Bottom -->
+    <div class="max-w-3xl mx-auto py-8 px-4 flex justify-center">
+        <a href="scholarship-form.html" class="inline-block bg-alifYellow text-alifTeal font-bold px-8 py-3 rounded-full shadow-md hover:bg-alifGreen hover:text-white transition text-lg">Apply Now</a>
+    </div>
+
+    <footer class="bg-[#0D2C2B] text-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <!-- Column 1: Brand & Mission -->
+                <div>
+                    <img src="/path-to-logo.png" alt="ALIF Logo" class="mb-4">
+                    <p class="text-sm mb-6">ALIF was officially inaugurated on November 17, 2012, with a sincere desire to benefit humanity through structured charitable activities.</p>
+                    <div class="flex items-center">
+                        <input type="email" placeholder="Email Address" class="w-full px-4 py-2 text-black rounded-l-md focus:outline-none">
+                        <button class="bg-[#FFCD28] text-black px-4 py-2 rounded-r-md">Subscribe</button>
+                    </div>
                 </div>
+                <!-- Column 2: Quick Links (Programs) -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Impact Areas</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">Application</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">Football</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">School Outreach</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">Medical Outreach</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">PhotoSpeaks</a></li>
+                    </ul>
+                </div>
+                <!-- Column 3: Scholarship Tracks -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Educational Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">Secondary</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">College of Education</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">Polytechnic</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">University</a></li>
+                    </ul>
+                </div>
+                <!-- Column 4: Connect -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                    <ul class="space-y-2">
+                        <li><a href="tel:+2348135283434" class="hover:text-[#FFCD28] transition">(+234) 813 5283 434</a></li>
+                        <li><a href="mailto:info@alikpeafoundation.org" class="hover:text-[#FFCD28] transition">info@alikpeafoundation.org</a></li>
+                        <li>True Vine Plaza, 66b Ujoelen Road, Ekpoma, Edo State, NG</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Social Icons -->
+            <div class="flex justify-center space-x-4 mt-12">
+                <a href="#" class="bg-white bg-opacity-10 p-2 rounded-full hover:bg-opacity-20 transition">
+                    <img src="/path-to-facebook-icon.png" alt="Facebook" class="w-6 h-6">
+                </a>
+                <a href="#" class="bg-white bg-opacity-10 p-2 rounded-full hover:bg-opacity-20 transition">
+                    <img src="/path-to-twitter-icon.png" alt="Twitter" class="w-6 h-6">
+                </a>
+                <a href="#" class="bg-white bg-opacity-10 p-2 rounded-full hover:bg-opacity-20 transition">
+                    <img src="/path-to-instagram-icon.png" alt="Instagram" class="w-6 h-6">
+                </a>
+                <a href="#" class="bg-white bg-opacity-10 p-2 rounded-full hover:bg-opacity-20 transition">
+                    <img src="/path-to-pinterest-icon.png" alt="Pinterest" class="w-6 h-6">
+                </a>
+                <a href="#" class="bg-white bg-opacity-10 p-2 rounded-full hover:bg-opacity-20 transition">
+                    <img src="/path-to-youtube-icon.png" alt="YouTube" class="w-6 h-6">
+                </a>
+            </div>
+            <!-- Copyright Bar -->
+            <div class="mt-12 border-t border-white border-opacity-20 pt-4 text-center text-sm">
+                <p>Copyright © 2026 AlikpeaFoundation. All rights reserved by Noahtech.</p>
             </div>
         </div>
     </footer>

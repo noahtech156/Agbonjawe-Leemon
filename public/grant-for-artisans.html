@@ -1,31 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    </style>
+            <style>
+                    /* The News Ticker (Moving Headline) */
+                    @keyframes marquee {
+                        0% { transform: translateX(100%); }
+                        100% { transform: translateX(-100%); }
+                    }
+                    .animate-marquee {
+                        display: inline-block;
+                        white-space: nowrap;
+                        animation: marquee 25s linear infinite;
+                    }
+                    .animate-marquee:hover { animation-play-state: paused; }
+            </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grant for Artisans - ALIF Foundation</title>
     <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            alifTeal: '#194341',
+                            alifYellow: '#FFCD28',
+                            alifGreen: '#2CB770',
+                            textGray: '#5F6973',
+                        }
+                    }
+                }
+            }
+        </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gray-100">
-    <!-- Navbar -->
-    <header class="bg-white shadow-md">
-        <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
-            <a href="index.html" class="text-alifTeal font-bold text-xl">ALIF Foundation</a>
-            <nav class="hidden md:flex space-x-6">
-                <a href="index.html" class="text-textGray hover:text-alifTeal">Home</a>
-                <a href="about.html" class="text-textGray hover:text-alifTeal">About Us</a>
-                <a href="grant-for-artisans.html" class="text-textGray hover:text-alifTeal">Grant for Artisans</a>
+<body class="bg-white">
+            <div class="bg-alifTeal py-2 overflow-hidden border-b border-white/10">
+                    <div class="animate-marquee text-white text-xs font-bold uppercase tracking-[0.2em]">
+                        LATEST NEWS: ALIF Scholarship Application for 2026 now open • Chief Dr. Leemon Ikpea receives humanitarian award • Mentoring session scheduled for next week •
+                    </div>
+            </div>
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
+        <div class="max-w-7xl mx-auto flex items-center justify-between py-4 px-6">
+            <img src="alif-logo.png" alt="ALIF Foundation Logo" class="h-12 w-auto" />
+            <nav class="hidden md:flex flex-1 justify-center space-x-8">
+                                <a href="index.html" class="text-textGray font-semibold hover:text-alifTeal transition">Home</a>
+                                <a href="about.html" class="text-textGray font-semibold hover:text-alifTeal transition">About Us</a>
+                                <div class="relative group">
+                                    <button class="text-textGray font-semibold hover:text-alifTeal transition flex items-center">
+                                        Programs
+                                        <svg class="ml-2 w-4 h-4 text-textGray" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </button>
+                                    <div class="hidden group-hover:block absolute top-full left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                                        <a href="grant-for-artisans.html" class="block px-4 py-2 text-textGray hover:bg-gray-50 hover:text-alifTeal">Grant for Artisans</a>
+                                        <a href="scholarship.html" class="block px-4 py-2 text-textGray hover:bg-gray-50 hover:text-alifTeal">Scholarship</a>
+                                        <a href="career-counseling.html" class="block px-4 py-2 text-textGray hover:bg-gray-50 hover:text-alifTeal">Career Counseling</a>
+                                    </div>
+                                </div>
+                                <a href="events.html" class="text-textGray font-semibold hover:text-alifTeal transition">Latest Events</a>
+                                <a href="contact.html" class="text-textGray font-semibold hover:text-alifTeal transition">Contact</a>
+                                <button class="bg-alifYellow text-alifTeal font-extrabold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-all ml-4">APPLICATION</button>
+                        <a href="user-login.html" class="bg-alifYellow text-alifTeal font-extrabold px-6 py-2 rounded-full shadow-md hover:scale-105 transition-all ml-4">LOGIN</a>
             </nav>
+            <!-- Mobile Menu Toggle Button -->
+            <button class="md:hidden flex items-center justify-center p-2" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                <svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white w-full shadow-lg">
+                        <div class="flex flex-col items-center py-4 space-y-4">
+                                <a href="index.html" class="text-textGray font-semibold hover:text-alifTeal transition">Home</a>
+                                <a href="about.html" class="text-textGray font-semibold hover:text-alifTeal transition">About Us</a>
+                                <div class="relative group w-full flex flex-col items-center">
+                                    <button class="text-textGray font-semibold hover:text-alifTeal transition flex items-center w-full justify-center" onclick="document.getElementById('mobile-programs-dropdown').classList.toggle('hidden')">
+                                        Programs
+                                        <svg class="ml-2 w-4 h-4 text-textGray" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </button>
+                                    <div id="mobile-programs-dropdown" class="hidden w-56 bg-white border border-gray-200 rounded-lg shadow-lg mt-2">
+                                        <a href="grant-for-artisans.html" class="block px-4 py-2 text-textGray hover:bg-gray-50 hover:text-alifTeal">Grant for Artisans</a>
+                                        <a href="scholarship.html" class="block px-4 py-2 text-textGray hover:bg-gray-50 hover:text-alifTeal">Scholarship</a>
+                                        <a href="career-counseling.html" class="block px-4 py-2 text-textGray hover:bg-gray-50 hover:text-alifTeal">Career Counseling</a>
+                                    </div>
+                                </div>
+                                <a href="events.html" class="text-textGray font-semibold hover:text-alifTeal transition">Latest Events</a>
+                                <a href="contact.html" class="text-textGray font-semibold hover:text-alifTeal transition">Contact</a>
+                        </div>
         </div>
     </header>
 
     <!-- Grant for Artisans Section -->
     <section class="max-w-7xl mx-auto py-12 px-6">
-        <h1 class="text-3xl font-bold text-alifTeal mb-6">Grant for Artisans</h1>
-        <p class="text-gray-700 mb-4">Our grant program supports artisans by providing financial assistance to enhance their skills and grow their businesses. We aim to empower artisans to achieve sustainable livelihoods.</p>
-        <a href="apply.html" class="bg-alifTeal text-white px-4 py-2 rounded-md hover:bg-alifGreen">Apply Now</a>
+                <!-- Main Photo Section -->
+                <div class="flex flex-col md:flex-row gap-8 items-center mb-12">
+                    <div class="w-full md:w-2/3">
+                        <h1 class="text-3xl font-bold text-alifTeal mb-6">Grant for Artisans</h1>
+                        <p class="text-gray-700 mb-4">Our grant program supports artisans by providing financial assistance to enhance their skills and grow their businesses. We aim to empower artisans to achieve sustainable livelihoods.</p>
+                    </div>
+                    <div class="w-full md:w-1/3 flex justify-center">
+                        <div class="w-64 h-48 bg-gray-200 rounded-2xl flex items-center justify-center text-gray-400 text-lg font-semibold border-2 border-dashed border-gray-300">
+                            Main Photo
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Photos Section -->
+                <div class="flex flex-col md:flex-row gap-8 mb-10">
+                    <div class="w-full md:w-1/2 flex justify-center">
+                        <div class="w-64 h-40 bg-gray-100 rounded-xl flex items-center justify-center text-gray-400 text-base font-semibold border-2 border-dashed border-gray-300">
+                            Photo 1
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 flex justify-center">
+                        <div class="w-64 h-40 bg-gray-100 rounded-xl flex items-center justify-center text-gray-400 text-base font-semibold border-2 border-dashed border-gray-300">
+                            Photo 2
+                        </div>
+                    </div>
+                </div>
+
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 my-10">
+            <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between">
+                <h2 class="text-xl font-bold text-alifTeal mb-2">Who Can Benefit?</h2>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>Tailors, carpenters, welders, and other skilled tradespeople</li>
+                    <li>Young people seeking to learn a trade or start a small business</li>
+                    <li>Women artisans looking to expand their craft or cooperative</li>
+                    <li>Groups and associations working to uplift their members</li>
+                </ul>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between">
+                <h2 class="text-xl font-bold text-alifTeal mb-2">What the Grant Covers</h2>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>Purchase of essential tools and equipment</li>
+                    <li>Training and capacity building workshops</li>
+                    <li>Support for business registration and branding</li>
+                    <li>Mentorship and networking opportunities</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="my-12">
+            <h2 class="text-2xl font-bold text-alifTeal mb-4">Stories of Impact</h2>
+            <div class="space-y-6">
+                <div class="bg-gray-50 rounded-lg p-6 shadow">
+                    <p class="text-gray-700 mb-2">“Before receiving the ALIF artisan grant, I struggled to buy the tools I needed for my carpentry business. Now, I have a steady stream of customers and have even trained two apprentices.” <span class="block text-sm text-alifGreen">— Samuel, Carpenter</span></p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-6 shadow">
+                    <p class="text-gray-700 mb-2">“The grant helped our women’s cooperative purchase sewing machines and attend a workshop on fashion design. We now supply uniforms to local schools.” <span class="block text-sm text-alifGreen">— Fatima, Tailor</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-16">
+            <h2 class="text-xl font-bold text-alifTeal mb-2">How to Get Involved</h2>
+            <ol class="list-decimal list-inside text-gray-700 space-y-1">
+                <li>Stay tuned for our next grant application window.</li>
+                <li>Prepare a simple proposal describing your craft and how the grant will help you grow.</li>
+                <li>Attend our information sessions and workshops for tips on applying.</li>
+                <li>Follow us on social media for updates and success stories.</li>
+            </ol>
+        </div>
     </section>
 
+    <footer class="bg-[#0D2C2B] text-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <!-- Column 1: Brand & Mission -->
+                <div>
+                    <img src="/path-to-logo.png" alt="ALIF Logo" class="mb-4">
+                    <p class="text-sm mb-6">ALIF was officially inaugurated on November 17, 2012, with a sincere desire to benefit humanity through structured charitable activities.</p>
+                    <div class="flex items-center">
+                        <input type="email" placeholder="Email Address" class="w-full px-4 py-2 text-black rounded-l-md focus:outline-none">
+                        <button class="bg-[#FFCD28] text-black px-4 py-2 rounded-r-md">Subscribe</button>
+                    </div>
+                </div>
+                <!-- Column 2: Quick Links (Programs) -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Impact Areas</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">Application</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">Football</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">School Outreach</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">Medical Outreach</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">PhotoSpeaks</a></li>
+                    </ul>
+                </div>
+                <!-- Column 3: Scholarship Tracks -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Educational Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">Secondary</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">College of Education</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">Polytechnic</a></li>
+                        <li><a href="#" class="hover:text-[#FFCD28] transition">University</a></li>
+                    </ul>
+                </div>
+                <!-- Column 4: Connect -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                    <ul class="space-y-2">
+                        <li><a href="tel:+2348135283434" class="hover:text-[#FFCD28] transition">(+234) 813 5283 434</a></li>
+                        <li><a href="mailto:info@alikpeafoundation.org" class="hover:text-[#FFCD28] transition">info@alikpeafoundation.org</a></li>
+                        <li>True Vine Plaza, 66b Ujoelen Road, Ekpoma, Edo State, NG</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Social Icons -->
+            <div class="flex justify-center space-x-4 mt-12">
+                <a href="#" class="bg-white bg-opacity-10 p-2 rounded-full hover:bg-opacity-20 transition">
+                    <img src="/path-to-facebook-icon.png" alt="Facebook" class="w-6 h-6">
+                </a>
+                <a href="#" class="bg-white bg-opacity-10 p-2 rounded-full hover:bg-opacity-20 transition">
+                    <img src="/path-to-twitter-icon.png" alt="Twitter" class="w-6 h-6">
+                </a>
+                <a href="#" class="bg-white bg-opacity-10 p-2 rounded-full hover:bg-opacity-20 transition">
+                    <img src="/path-to-instagram-icon.png" alt="Instagram" class="w-6 h-6">
+                </a>
+                <a href="#" class="bg-white bg-opacity-10 p-2 rounded-full hover:bg-opacity-20 transition">
+                    <img src="/path-to-pinterest-icon.png" alt="Pinterest" class="w-6 h-6">
+                </a>
+                <a href="#" class="bg-white bg-opacity-10 p-2 rounded-full hover:bg-opacity-20 transition">
+                    <img src="/path-to-youtube-icon.png" alt="YouTube" class="w-6 h-6">
+                </a>
+            </div>
+            <!-- Copyright Bar -->
+            <div class="mt-12 border-t border-white border-opacity-20 pt-4 text-center text-sm">
+                <p>Copyright © 2026 AlikpeaFoundation. All rights reserved by Noahtech.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

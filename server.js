@@ -9,13 +9,18 @@ const authRoutes = require('./routes/authRoutes');
 const scholarshipRoutes = require('./routes/scholarshipRoutes');
 const userRoutes = require('./routes/userRoutes');
 const errorHandler = require('./middleware/errorHandler');
-const pool = require('./config/database');
+const pool = require('./config/database'); // MySQL pool, now used for all DB operations
 const eventRoutes = require('./routes/eventRoutes');
+const disbursementRoutes = require('./routes/disbursementRoutes');
 
 const app = express();
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN || '*',
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
@@ -27,7 +32,9 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/scholarships', scholarshipRoutes);
 app.use('/api/user', userRoutes);
+
 app.use('/api/events', eventRoutes);
+app.use('/api/disbursements', disbursementRoutes);
 
 // Error Handler
 app.use(errorHandler);

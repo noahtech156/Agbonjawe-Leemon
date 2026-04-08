@@ -3,74 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
+    <title>User Dashboard - ALIF Foundation</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .lemon-gradient {
+            background: linear-gradient(90deg, #FFCD28 0%, #2CB770 100%);
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
-    <header class="bg-white shadow-md py-4">
-        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-alifTeal">User Dashboard</h1>
-            <button class="bg-red-500 text-white px-4 py-2 rounded-md" onclick="logout()">Logout</button>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <header class="w-full bg-[#194341] py-4 px-4 md:px-6 flex flex-col md:flex-row items-center md:justify-between gap-4 shadow-md">
+        <img src="alif-logo.png" alt="ALIF Foundation Logo" class="h-12 w-auto mb-2 md:mb-0" />
+        <div class="flex gap-2 md:gap-4 w-full md:w-auto justify-end">
+            <a href="index.html" class="bg-[#FFCD28] text-[#194341] font-bold text-lg px-4 md:px-6 py-2 rounded-full shadow hover:bg-yellow-300 transition-all">Home</a>
+            <button id="logoutBtn" class="bg-red-500 text-white font-bold text-lg px-4 md:px-6 py-2 rounded-full shadow hover:bg-red-600 transition-all">Logout</button>
         </div>
     </header>
-
-    <main class="max-w-7xl mx-auto py-12 px-6">
-        <section id="status-section" class="mb-8">
-            <h2 class="text-xl font-bold text-gray-800">Scholarship Status</h2>
-            <div id="status-message" class="mt-4 p-4 bg-gray-50 border rounded-md shadow-sm">
-                <!-- Status will be dynamically updated -->
+    <!-- Welcome Banner -->
+    <div class="w-full bg-green-100 py-8 px-4 md:px-6 flex flex-col justify-center mb-8" style="min-height:100px;">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl text-[#194341] mb-2 text-left font-normal">
+            <span class="font-black">Welcome</span>
+            <span class="font-normal">, <span id="userFullName">User</span></span>
+        </h2>
+    </div>
+    <main class="flex flex-col items-start flex-1 w-full px-2 sm:px-4 md:px-8">
+        <!-- Profile Section -->
+        <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-6 md:p-8 w-full max-w-3xl flex flex-col md:flex-row gap-6 md:gap-8 mb-8 items-center">
+            <div class="flex-shrink-0 flex flex-col items-center">
+                <div class="w-24 h-24 sm:w-32 sm:h-32 bg-gray-200 rounded-full flex items-center justify-center text-3xl sm:text-4xl text-gray-400 mb-4">
+                    <span id="userInitial">U</span>
+                </div>
             </div>
-        </section>
-
-        <section id="disbursement-section" class="hidden">
-            <h2 class="text-xl font-bold text-gray-800">Disbursement Details</h2>
-            <div id="disbursement-info" class="mt-4 p-4 bg-gray-50 border rounded-md shadow-sm">
-                <!-- Disbursement details will be dynamically updated -->
+            <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div><span class="font-bold">Full Name:</span> <span id="profileFullName"></span></div>
+                <div><span class="font-bold">Gender:</span> <span id="profileGender"></span></div>
+                <div><span class="font-bold">Date of Birth:</span> <span id="profileDob"></span></div>
+                <div><span class="font-bold">Admission Status:</span> <span id="profileAdmission"></span></div>
+                <div><span class="font-bold">Current Level:</span> <span id="profileLevel"></span></div>
             </div>
-        </section>
+        </div>
+        <!-- Disbursement Actions -->
+        <div class="w-full max-w-3xl mb-8">
+            <button id="showDisbursementForm" class="bg-[#FFCD28] text-black font-bold px-4 sm:px-6 py-3 rounded-lg shadow hover:bg-yellow-300 transition mb-4 w-full">Disbursement Form</button>
+            <div id="disbursementFormContainer" class="hidden bg-white rounded-2xl shadow-lg p-4 sm:p-8 mb-4">
+                <h3 class="text-xl font-bold text-alifTeal mb-4">Disbursement Form</h3>
+                <form id="disbursementForm" class="space-y-4">
+                    <div><label class="block font-medium">Full Name</label><input type="text" id="disbFullName" class="w-full border-gray-300 rounded-md p-2" required></div>
+                    <div><label class="block font-medium">School Website Link</label><input type="url" id="disbSchool" class="w-full border-gray-300 rounded-md p-2" required></div>
+                    <div><label class="block font-medium">Student ID</label><input type="text" id="disbStudentId" class="w-full border-gray-300 rounded-md p-2" required></div>
+                    <div><label class="block font-medium">Password</label><input type="password" id="disbPassword" class="w-full border-gray-300 rounded-md p-2" required></div>
+                    <div><label class="block font-medium">Account Number</label><input type="text" id="disbAccountNumber" class="w-full border-gray-300 rounded-md p-2" required></div>
+                    <div><label class="block font-medium">Bank Name</label><input type="text" id="disbBankName" class="w-full border-gray-300 rounded-md p-2" required></div>
+                    <div><label class="block font-medium">Account Name</label><input type="text" id="disbAccountName" class="w-full border-gray-300 rounded-md p-2" required></div>
+                    <div><label class="block font-medium">Amount</label><input type="number" id="disbAmount" class="w-full border-gray-300 rounded-md p-2" required min="0" step="0.01"></div>
+                    <button type="submit" class="bg-[#FFCD28] text-[#194341] font-bold px-6 py-2 rounded-lg shadow hover:bg-yellow-300 transition-all">Submit</button>
+                </form>
+            </div>
+            <button id="showDisbursementHistory" class="bg-[#FFCD28] text-black font-bold px-4 sm:px-6 py-3 rounded-lg shadow hover:bg-yellow-300 transition w-full">Disbursement History</button>
+            <div id="disbursementHistoryContainer" class="hidden bg-white rounded-2xl shadow-lg p-4 sm:p-8 mt-4">
+                <h3 class="text-xl font-bold text-alifTeal mb-4">Disbursement History</h3>
+                <div id="disbursementHistoryList" class="space-y-2"></div>
+            </div>
+        </div>
     </main>
-
     <script>
-        // Fetch user data and update the dashboard
-        async function fetchUserData() {
+        // Simulate fetching user from localStorage
+        const user = JSON.parse(localStorage.getItem('alifUser')) || {
+            name: 'User',
+            gender: 'Not set',
+            dob: 'Not set',
+            admission: 'Not set',
+            level: 'Not set',
+            details: {}
+        };
+        document.getElementById('userFullName').textContent = user.name || 'User';
+        document.getElementById('profileFullName').textContent = user.name || 'User';
+        document.getElementById('profileGender').textContent = user.gender || 'Not set';
+        document.getElementById('profileDob').textContent = user.dob || 'Not set';
+        document.getElementById('profileAdmission').textContent = user.admission || 'Not set';
+        document.getElementById('profileLevel').textContent = user.level || 'Not set';
+        document.getElementById('userInitial').textContent = user.name ? user.name.charAt(0).toUpperCase() : 'U';
+
+        // Disbursement Form Toggle
+        document.getElementById('showDisbursementForm').onclick = function() {
+            document.getElementById('disbursementFormContainer').classList.toggle('hidden');
+        };
+        // Disbursement History Toggle
+        document.getElementById('showDisbursementHistory').onclick = function() {
+            document.getElementById('disbursementHistoryContainer').classList.toggle('hidden');
+        };
+        // Handle Disbursement Form Submission
+        document.getElementById('disbursementForm').onsubmit = function(e) {
+            e.preventDefault();
+            const entry = {
+                fullName: document.getElementById('disbFullName').value,
+                school: document.getElementById('disbSchool').value,
+                studentId: document.getElementById('disbStudentId').value,
+                password: document.getElementById('disbPassword').value,
+                accountNumber: document.getElementById('disbAccountNumber').value,
+                bankName: document.getElementById('disbBankName').value,
+                accountName: document.getElementById('disbAccountName').value,
+                amount: document.getElementById('disbAmount').value,
+                date: new Date().toLocaleDateString(),
+                paymentMethod: 'Bank Transfer'
+            };
+            let history = JSON.parse(localStorage.getItem('disbursementHistory') || '[]');
+            history.push(entry);
+            localStorage.setItem('disbursementHistory', JSON.stringify(history));
+            alert('Disbursement request submitted!');
+            document.getElementById('disbursementForm').reset();
+            document.getElementById('disbursementFormContainer').classList.add('hidden');
+        };
+        // Render Disbursement History (backend, with commentary if enabled)
+        document.getElementById('showDisbursementHistory').addEventListener('click', async function() {
+            const list = document.getElementById('disbursementHistoryList');
+            list.innerHTML = '';
+            // Check if admin enabled commentary (simulate with localStorage for now)
+            let openCommentary = false;
             try {
-                const response = await fetch('/api/user/dashboard');
-                const data = await response.json();
-
-                const statusMessage = document.getElementById('status-message');
-                const disbursementSection = document.getElementById('disbursement-section');
-
-                if (data.status === 'Approved') {
-                    statusMessage.textContent = 'Congratulations! Your scholarship has been approved.';
-                    disbursementSection.classList.remove('hidden');
-                } else if (data.status === 'Declined') {
-                    statusMessage.textContent = 'We regret to inform you that your scholarship application has been declined.';
-                    setTimeout(() => {
-                        document.body.innerHTML = '<h1 class="text-center text-3xl font-bold text-red-500 mt-20">Access Denied</h1>';
-                    }, 3000);
-                } else {
-                    statusMessage.textContent = 'Your scholarship application is still under review.';
-                }
-
-                // Update disbursement info if available
-                if (data.disbursement) {
-                    const disbursementInfo = document.getElementById('disbursement-info');
-                    disbursementInfo.textContent = `Next disbursement: ${data.disbursement.nextDate}`;
-                }
-            } catch (error) {
-                console.error('Error fetching user data:', error);
+                openCommentary = localStorage.getItem('openCommentary') === 'true';
+            } catch {}
+            // Fetch user disbursements from backend
+            let res = await fetch('/api/disbursements');
+            let history = await res.json();
+            // Filter for this user (simulate with user.id or email if available)
+            // If backend supports /api/disbursements/user/:id, use that instead
+            if (user.id) {
+                history = history.filter(d => d.user_id == user.id);
+            } else if (user.email) {
+                // fallback if user_id not available
+                history = history.filter(d => d.email == user.email);
             }
-        }
-
-        // Logout function
-        function logout() {
-            // Clear session and redirect to login
-            window.location.href = '/login.html';
-        }
-
-        // Initialize dashboard
-        fetchUserData();
+            if (history.length === 0) {
+                list.innerHTML = '<div class="text-gray-500">No disbursement history found.</div>';
+            } else {
+                history.slice().reverse().forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'bg-gray-100 rounded p-3 flex flex-col md:flex-row md:items-center md:justify-between';
+                    let content = `<span><b>Amount:</b> ${item.amount || ''} <b>Details:</b> ${item.details || ''}</span>`;
+                    if (openCommentary) {
+                        content += `
+                            <form class="flex flex-col sm:flex-row gap-2 mt-2 commentary-form" data-id="${item.id}">
+                                <label class="flex items-center gap-1">
+                                    <input type="radio" name="received-${item.id}" value="received" ${item.received ? 'checked' : ''}>
+                                    <span class="text-sm">Received</span>
+                                </label>
+                                <label class="flex items-center gap-1">
+                                    <input type="radio" name="received-${item.id}" value="not-received" ${item.notReceived ? 'checked' : ''}>
+                                    <span class="text-sm">Not Received</span>
+                                </label>
+                                <input type="text" name="time" placeholder="Time of receiving" value="${item.time || ''}" class="border rounded px-2 py-1 text-xs" style="min-width:120px;">
+                                <input type="text" name="appreciation" placeholder="Appreciation message" value="${item.appreciation || ''}" class="border rounded px-2 py-1 text-xs flex-1" style="min-width:160px;">
+                                <button type="submit" class="bg-[#FFCD28] text-black px-2 py-1 rounded text-xs font-bold">Save</button>
+                            </form>
+                        `;
+                    } else {
+                        // Only show old history if exists
+                        if (item.received || item.notReceived || item.time || item.appreciation) {
+                            content += `<div class="flex flex-col sm:flex-row gap-2 mt-2">
+                                <span class="text-xs">${item.received ? 'Received' : item.notReceived ? 'Not Received' : ''}</span>
+                                <span class="text-xs text-gray-500">${item.time || ''}</span>
+                                <span class="text-xs text-green-700">${item.appreciation || ''}</span>
+                            </div>`;
+                        }
+                    }
+                    div.innerHTML = content;
+                    list.appendChild(div);
+                });
+                // Commentary form submit listeners (save to backend)
+                if (openCommentary) {
+                    list.querySelectorAll('.commentary-form').forEach(form => {
+                        form.addEventListener('submit', async function(e) {
+                            e.preventDefault();
+                            const id = form.dataset.id;
+                            const formData = new FormData(form);
+                            const received = formData.get('received-' + id) === 'received';
+                            const notReceived = formData.get('received-' + id) === 'not-received';
+                            const time = formData.get('time');
+                            const appreciation = formData.get('appreciation');
+                            await fetch(`/api/disbursements/${id}/commentary`, {
+                                method: 'PUT',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ received, notReceived, time, appreciation })
+                            });
+                            // Refresh
+                            document.getElementById('showDisbursementHistory').click();
+                        });
+                    });
+                }
+            }
+        });
+        // Logout
+        document.getElementById('logoutBtn').onclick = function() {
+            localStorage.removeItem('alifUser');
+            window.location.href = 'user-login.html';
+        };
     </script>
 </body>
 </html>
