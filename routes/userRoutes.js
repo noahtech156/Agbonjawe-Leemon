@@ -12,8 +12,6 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch user' });
     }
 });
-const express = require('express');
-const router = express.Router();
 
 // Mock user dashboard endpoint
 router.get('/dashboard', (req, res) => {

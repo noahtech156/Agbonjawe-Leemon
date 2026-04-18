@@ -6,6 +6,8 @@
   <title>Scholarship Application Form - ALIF Foundation</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="config.js"></script>
 </head>
 <body class="bg-gradient-to-br from-lemoon to-othercolour min-h-screen flex flex-col">
   <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
@@ -86,21 +88,28 @@
       e.preventDefault();
       const form = e.target;
       const formData = new FormData(form);
-      const res = await fetch('/api/scholarships/apply', {
-        method: 'POST',
-        body: formData
-      });
       const msgDiv = document.getElementById('formMessage');
       msgDiv.classList.remove('text-red-600');
-      if (res.ok) {
-        msgDiv.textContent = 'Application submitted successfully!';
-        msgDiv.classList.remove('hidden');
-        form.reset();
-      } else {
-        const data = await res.json();
-        msgDiv.textContent = data.error || 'Submission failed.';
-        msgDiv.classList.remove('hidden');
+      try {
+        const res = await fetch(`${window.API_BASE}/api/scholarships/apply`, {
+          method: 'POST',
+          body: formData
+        });
+        if (res.ok) {
+          const data = await res.json();
+          msgDiv.textContent = data.message || 'Application submitted successfully!';
+          msgDiv.classList.remove('hidden');
+          form.reset();
+        } else {
+          const data = await res.json();
+          msgDiv.textContent = data.error || 'Submission failed.';
+          msgDiv.classList.add('text-red-600');
+          msgDiv.classList.remove('hidden');
+        }
+      } catch (error) {
+        msgDiv.textContent = 'Network error: ' + error.message;
         msgDiv.classList.add('text-red-600');
+        msgDiv.classList.remove('hidden');
       }
     };
   </script>

@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 
 const postRoutes = require('./routes/postRoutes');
@@ -14,6 +15,12 @@ const eventRoutes = require('./routes/eventRoutes');
 const disbursementRoutes = require('./routes/disbursementRoutes');
 
 const app = express();
+
+// Ensure uploads directory exists
+const uploadsDir = path.join(__dirname, 'public/uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
 
 // Middleware
 const corsOptions = {

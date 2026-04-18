@@ -11,14 +11,24 @@ exports.getUserByEmail = async (email) => {
     return rows[0] || null;
 };
 
+
 // Create a new user
 exports.createUser = async (user) => {
-    const { name, email, password } = user;
+    const { name, email, password, role = 'user', status = 'active' } = user;
     const [result] = await pool.query(
-        'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
-        [name, email, password]
+        'INSERT INTO users (name, email, password, role, status) VALUES (?, ?, ?, ?, ?)',
+        [name, email, password, role, status]
     );
-    return { id: result.insertId, ...user };
+    return { id: result.insertId, name, email, role, status };
+};
+
+// Update user status
+exports.updateUserStatus = async (id, status) => {
+    const [result] = await pool.query(
+        'UPDATE users SET status = ? WHERE id = ?',
+        [status, id]
+    );
+    return result.affectedRows > 0;
 };
 
 // Update user password
