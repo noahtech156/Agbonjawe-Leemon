@@ -4,15 +4,17 @@ const path = require('path');
 const fs = require('fs');
 require('dotenv').config();
 
+// Routes
 const postRoutes = require('./routes/postRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const authRoutes = require('./routes/authRoutes');
 const scholarshipRoutes = require('./routes/scholarshipRoutes');
 const userRoutes = require('./routes/userRoutes');
-const errorHandler = require('./middleware/errorHandler');
-const pool = require('./config/database'); // MySQL pool, now used for all DB operations
 const eventRoutes = require('./routes/eventRoutes');
 const disbursementRoutes = require('./routes/disbursementRoutes');
+
+// Middleware
+const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 
@@ -22,14 +24,18 @@ if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-// Middleware
+// CORS setup
 const corsOptions = {
   origin: process.env.CORS_ORIGIN || '*',
   credentials: true,
 };
 app.use(cors(corsOptions));
+
+// Body parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Static files
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -39,19 +45,20 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/scholarships', scholarshipRoutes);
 app.use('/api/user', userRoutes);
-
 app.use('/api/events', eventRoutes);
 app.use('/api/disbursements', disbursementRoutes);
 
-// Error Handler
+// Health check route (VERY IMPORTANT for testing)
+app.get('/', (req, res) => {
+  res.send('Server is running ✅');
+});
+
+// Error handler (must be last)
 app.use(errorHandler);
 
-// Test MySQL connection
-pool.getConnection()
-    .then(() => console.log('Connected to MySQL database'))
-    .catch(err => console.error('MySQL connection error:', err));
+// ✅ SAFE server start (cPanel/Passenger compatible)
+const PORT = process.env.PORT;
 
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
