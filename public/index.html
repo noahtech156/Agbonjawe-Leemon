@@ -320,8 +320,8 @@
       <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 relative z-10">
         <!-- Member 1 -->
         <div class="bg-[#F0FDF4] border border-[#A7F3D0] rounded-3xl overflow-hidden flex flex-col items-center shadow-sm relative">
-          <div class="w-full h-64 flex items-center justify-center overflow-hidden rounded-t-full">
-            <img src="member1.jpg" alt="Visible Difference Irabor" class="w-full h-full object-cover rounded-t-full" />
+          <div class="w-full h-64 flex items-center justify-center overflow-hidden">
+            <img src="member1.jpg" alt="Visible Difference Irabor" class="w-full h-full object-cover" />
           </div>
           <div class="py-6 px-4 w-full flex flex-col items-start relative">
             <h3 class="text-[#194341] font-bold text-lg mb-2">Visible Difference Irabor</h3>
@@ -335,8 +335,8 @@
         </div>
         <!-- Member 2 -->
         <div class="bg-[#F0FDF4] border border-[#A7F3D0] rounded-3xl overflow-hidden flex flex-col items-center shadow-sm relative">
-          <div class="w-full h-64 flex items-center justify-center overflow-hidden rounded-t-full">
-            <img src="member2.jpg" alt="Team Member 2" class="w-full h-full object-cover rounded-t-full" />
+          <div class="w-full h-64 flex items-center justify-center overflow-hidden">
+            <img src="member2.jpg" alt="Team Member 2" class="w-full h-full object-cover" />
           </div>
           <div class="py-6 px-4 w-full flex flex-col items-start relative">
             <h3 class="text-[#194341] font-bold text-lg mb-2">Member Name 2</h3>
@@ -485,7 +485,7 @@
       <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
         <!-- Column 1: Brand & Mission -->
         <div>
-          <img src="/path-to-logo.png" alt="ALIF Logo" class="mb-4">
+          <img src="alif-logo.png" alt="ALIF Logo" class="mb-4">
           <p class="text-sm mb-6">ALIF was officially inaugurated on November 17, 2012, with a sincere desire to benefit humanity through structured charitable activities.</p>
           <div class="flex items-center">
             <input type="email" placeholder="Email Address" class="w-full px-4 py-2 text-black rounded-l-md focus:outline-none">
@@ -530,19 +530,19 @@
       <!-- Social Icons -->
       <div class="flex justify-center space-x-4 mt-12">
         <a href="#" class="bg-white bg-opacity-10 p-2 rounded-full hover:bg-opacity-20 transition">
-          <img src="/path-to-facebook-icon.png" alt="Facebook" class="w-6 h-6">
+          <img src="facebook-icon.png" alt="Facebook" class="w-6 h-6">
         </a>
         <a href="#" class="bg-white bg-opacity-10 p-2 rounded-full hover:bg-opacity-20 transition">
-          <img src="/path-to-twitter-icon.png" alt="Twitter" class="w-6 h-6">
+          <img src="twitter-icon.png" alt="Twitter" class="w-6 h-6">
         </a>
         <a href="#" class="bg-white bg-opacity-10 p-2 rounded-full hover:bg-opacity-20 transition">
-          <img src="/path-to-instagram-icon.png" alt="Instagram" class="w-6 h-6">
+          <img src="instagram-icon.png" alt="Instagram" class="w-6 h-6">
         </a>
         <a href="#" class="bg-white bg-opacity-10 p-2 rounded-full hover:bg-opacity-20 transition">
-          <img src="/path-to-pinterest-icon.png" alt="Pinterest" class="w-6 h-6">
+          <img src="pintrest-icon.png" alt="Pinterest" class="w-6 h-6">
         </a>
         <a href="#" class="bg-white bg-opacity-10 p-2 rounded-full hover:bg-opacity-20 transition">
-          <img src="/path-to-youtube-icon.png" alt="YouTube" class="w-6 h-6">
+          <img src="youtube-icon.png" alt="YouTube" class="w-6 h-6">
         </a>
       </div>
 
@@ -552,5 +552,80 @@
       </div>
     </div>
   </footer>
+
+  <script src="config.js"></script>
+  <script>
+    // Load dynamic content when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      loadNewsTicker();
+      loadTestimonials();
+      loadLatestNews();
+    });
+
+    // Load news ticker content
+    async function loadNewsTicker() {
+      try {
+        const response = await fetch(`${API_BASE_URL}/content/news-ticker/active`);
+        const tickerItems = await response.json();
+
+        if (tickerItems.length > 0) {
+          const tickerContent = tickerItems.map(item => item.content).join(' • ');
+          const tickerElement = document.querySelector('.animate-marquee');
+          if (tickerElement) {
+            tickerElement.textContent = `LATEST NEWS: ${tickerContent}`;
+          }
+        }
+      } catch (error) {
+        console.error('Error loading news ticker:', error);
+      }
+    }
+
+    // Load testimonials
+    async function loadTestimonials() {
+      try {
+        const response = await fetch(`${API_BASE_URL}/content/posts/category/testimonials?limit=3`);
+        const testimonials = await response.json();
+
+        // Update testimonials section if it exists
+        const testimonialContainer = document.querySelector('.testimonials-container');
+        if (testimonialContainer && testimonials.length > 0) {
+          testimonialContainer.innerHTML = testimonials.map(testimonial => `
+            <div class="bg-white p-6 rounded-lg shadow-md">
+              <p class="text-gray-700 mb-4">"${testimonial.content}"</p>
+              <p class="font-semibold text-alifTeal">- ${testimonial.title}</p>
+            </div>
+          `).join('');
+        }
+      } catch (error) {
+        console.error('Error loading testimonials:', error);
+      }
+    }
+
+    // Load latest news
+    async function loadLatestNews() {
+      try {
+        const response = await fetch(`${API_BASE_URL}/content/posts/category/news?limit=3`);
+        const newsItems = await response.json();
+
+        // Update latest news section if it exists
+        const newsContainer = document.querySelector('.latest-news-container');
+        if (newsContainer && newsItems.length > 0) {
+          newsContainer.innerHTML = newsItems.map(news => `
+            <div class="bg-white p-6 rounded-lg shadow-md">
+              <h3 class="text-lg font-semibold text-alifTeal mb-2">${news.title}</h3>
+              <p class="text-gray-700 mb-4">${news.excerpt || news.content.substring(0, 150)}...</p>
+              <p class="text-sm text-gray-500">${new Date(news.created_at).toLocaleDateString()}</p>
+            </div>
+          `).join('');
+        }
+      } catch (error) {
+        console.error('Error loading latest news:', error);
+      }
+    }
+  </script>
 </body>
 </html>
+
+
+
+

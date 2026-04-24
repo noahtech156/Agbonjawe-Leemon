@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (logoutBtn) logoutBtn.addEventListener('click', () => {
         clearToken();
         localStorage.removeItem('alifUser');
-        window.location.href = '/user-login.html';
+        window.location.href = '/admin-login.html';
     });
 });
 

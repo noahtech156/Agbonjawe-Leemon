@@ -28,6 +28,7 @@
                 <span class="text-xl font-bold">ALIF Admin</span>
             </div>
             <nav class="flex flex-col gap-2">
+                <a href="content-admin.html" class="text-left py-2 px-4 rounded hover:bg-[#225c53] transition text-[#194341] hover:text-white">Content Management</a>
                 <button class="sidebar-link text-left py-2 px-4 rounded hover:bg-[#225c53] transition" data-segment="applications">Scholarship Applications</button>
                 <button class="sidebar-link text-left py-2 px-4 rounded hover:bg-[#225c53] transition" data-segment="disbursements">Disbursement Forms</button>
                 <button class="sidebar-link text-left py-2 px-4 rounded hover:bg-[#225c53] transition" data-segment="history">Disbursement History</button>
@@ -110,6 +111,33 @@
     </div>
     <script src="admin.js"></script>
     <script>
+    // Check authentication on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = 'admin-login.html';
+            return;
+        }
+
+        // Verify token with backend
+        fetch('/api/auth/verify', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.user || data.user.role !== 'admin') {
+                window.location.href = 'admin-login.html';
+            }
+        })
+        .catch(error => {
+            console.error('Auth check failed:', error);
+            window.location.href = 'admin-login.html';
+        });
+    });
+    </script>
+    <script>
     // Commentary toggle state (simulate backend with localStorage for now)
     const openCommentaryToggle = document.getElementById('openCommentaryToggle');
     openCommentaryToggle.checked = localStorage.getItem('openCommentary') === 'true';
@@ -139,3 +167,5 @@
     </script>
 </body>
 </html>
+
+

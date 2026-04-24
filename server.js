@@ -12,6 +12,7 @@ const scholarshipRoutes = require('./routes/scholarshipRoutes');
 const userRoutes = require('./routes/userRoutes');
 const eventRoutes = require('./routes/eventRoutes');
 const disbursementRoutes = require('./routes/disbursementRoutes');
+const contentRoutes = require('./routes/contentRoutes');
 
 // Middleware
 const errorHandler = require('./middleware/errorHandler');
@@ -47,6 +48,7 @@ app.use('/api/scholarships', scholarshipRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/disbursements', disbursementRoutes);
+app.use('/api/content', contentRoutes);
 
 // Health check route (VERY IMPORTANT for testing)
 app.get('/', (req, res) => {

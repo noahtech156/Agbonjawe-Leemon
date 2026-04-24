@@ -89,3 +89,23 @@ exports.register = async (req, res) => {
         res.status(500).json({ error: 'An error occurred during registration' });
     }
 };
+
+exports.verify = async (req, res) => {
+    try {
+        const user = await userModel.getUserById(req.user.id);
+        if (!user) {
+            return res.status(401).json({ error: 'User not found' });
+        }
+        res.status(200).json({ 
+            success: true,
+            user: { 
+                id: user.id, 
+                name: user.name, 
+                email: user.email, 
+                role: user.role 
+            } 
+        });
+    } catch (error) {
+        res.status(500).json({ error: 'An error occurred during verification' });
+    }
+};

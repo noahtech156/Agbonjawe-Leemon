@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALIF Content Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="config.js"></script>
+    <style>
+        .sidebar-transition {
+            transition: transform 0.3s ease-in-out;
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="relative h-screen">
+        <!-- Navbar -->
+        <header class="bg-[#194341] text-white py-4 px-6 flex items-center justify-between shadow-md fixed top-0 left-0 w-full z-30">
+            <div class="flex items-center">
+                <img src="alif-logo.png" alt="ALIF Foundation Logo" class="h-8 w-auto mr-2" />
+                <span class="text-lg font-bold">ALIF Content Management</span>
+            </div>
+            <button id="sidebarToggle" class="ml-4 p-2 rounded bg-[#FFCD28] text-black hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </header>
+
+        <!-- Sidebar -->
+        <aside id="adminSidebar" class="fixed top-0 left-0 h-full w-64 bg-white text-[#194341] flex flex-col py-8 px-4 space-y-2 z-40 shadow-lg transform -translate-x-full sidebar-transition border-r border-gray-200">
+            <div class="flex items-center mb-8">
+                <img src="alif-logo.png" alt="ALIF Foundation Logo" class="h-10 w-auto mr-2" />
+                <span class="text-xl font-bold">Content Admin</span>
+            </div>
+            <nav class="flex flex-col gap-1">
+                <button class="sidebar-link text-left py-3 px-4 rounded-lg hover:bg-[#225c53] hover:text-white transition flex items-center" data-segment="dashboard">
+                    <i data-lucide="home" class="w-5 h-5 mr-3"></i>Dashboard
+                </button>
+                <button class="sidebar-link text-left py-3 px-4 rounded-lg hover:bg-[#225c53] hover:text-white transition flex items-center" data-segment="homepage">
+                    <i data-lucide="globe" class="w-5 h-5 mr-3"></i>Homepage Content
+                </button>
+                <button class="sidebar-link text-left py-3 px-4 rounded-lg hover:bg-[#225c53] hover:text-white transition flex items-center" data-segment="news">
+                    <i data-lucide="newspaper" class="w-5 h-5 mr-3"></i>News & Updates
+                </button>
+                <button class="sidebar-link text-left py-3 px-4 rounded-lg hover:bg-[#225c53] hover:text-white transition flex items-center" data-segment="events">
+                    <i data-lucide="calendar" class="w-5 h-5 mr-3"></i>Events
+                </button>
+                <button class="sidebar-link text-left py-3 px-4 rounded-lg hover:bg-[#225c53] hover:text-white transition flex items-center" data-segment="scholarship">
+                    <i data-lucide="graduation-cap" class="w-5 h-5 mr-3"></i>Scholarship
+                </button>
+                <button class="sidebar-link text-left py-3 px-4 rounded-lg hover:bg-[#225c53] hover:text-white transition flex items-center" data-segment="grants">
+                    <i data-lucide="gift" class="w-5 h-5 mr-3"></i>Grant for Artisans
+                </button>
+                <button class="sidebar-link text-left py-3 px-4 rounded-lg hover:bg-[#225c53] hover:text-white transition flex items-center" data-segment="career">
+                    <i data-lucide="briefcase" class="w-5 h-5 mr-3"></i>Career Counseling
+                </button>
+                <button class="sidebar-link text-left py-3 px-4 rounded-lg hover:bg-[#225c53] hover:text-white transition flex items-center" data-segment="testimonials">
+                    <i data-lucide="message-square" class="w-5 h-5 mr-3"></i>Testimonials
+                </button>
+                <button class="sidebar-link text-left py-3 px-4 rounded-lg hover:bg-[#225c53] hover:text-white transition flex items-center" data-segment="news-ticker">
+                    <i data-lucide="zap" class="w-5 h-5 mr-3"></i>News Ticker
+                </button>
+            </nav>
+            <div class="flex-grow"></div>
+            <button id="logoutBtn" class="bg-red-500 px-4 py-3 rounded-lg font-bold hover:bg-red-600 transition flex items-center justify-center">
+                <i data-lucide="log-out" class="w-5 h-5 mr-2"></i>Logout
+            </button>
+        </aside>
+
+        <!-- Overlay -->
+        <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-30 z-30 hidden"></div>
+
+        <!-- Main Content -->
+        <div class="flex flex-col h-full pt-20">
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-50">
+                <!-- Dashboard -->
+                <section id="segment-dashboard" class="segment fade-in">
+                    <div class="mb-8">
+                        <h1 class="text-3xl font-bold text-[#194341] mb-2">Content Management Dashboard</h1>
+                        <p class="text-gray-600">Manage all content across your ALIF Foundation website</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <div class="flex items-center">
+                                <i data-lucide="file-text" class="w-8 h-8 text-[#194341] mr-3"></i>
+                                <div>
+                                    <h3 class="text-lg font-semibold">Total Posts</h3>
+                                    <p id="totalPosts" class="text-2xl font-bold text-[#194341]">0</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <div class="flex items-center">
+                                <i data-lucide="calendar" class="w-8 h-8 text-[#194341] mr-3"></i>
+                                <div>
+                                    <h3 class="text-lg font-semibold">Active Events</h3>
+                                    <p id="activeEvents" class="text-2xl font-bold text-[#194341]">0</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <div class="flex items-center">
+                                <i data-lucide="users" class="w-8 h-8 text-[#194341] mr-3"></i>
+                                <div>
+                                    <h3 class="text-lg font-semibold">Testimonials</h3>
+                                    <p id="totalTestimonials" class="text-2xl font-bold text-[#194341]">0</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Content Management Sections -->
+                <section id="segment-homepage" class="segment hidden fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-[#194341]">Homepage Content</h2>
+                        <button id="addHomepageContent" class="bg-[#FFCD28] text-black font-bold px-4 py-2 rounded-lg shadow hover:bg-yellow-300 transition">
+                            <i data-lucide="plus" class="w-5 h-5 mr-2"></i>Add Content
+                        </button>
+                    </div>
+                    <div id="homepageContentList" class="space-y-4"></div>
+                </section>
+
+                <!-- News Management -->
+                <section id="segment-news" class="segment hidden fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-[#194341]">News & Updates</h2>
+                        <button id="addNewsPost" class="bg-[#FFCD28] text-black font-bold px-4 py-2 rounded-lg shadow hover:bg-yellow-300 transition">
+                            <i data-lucide="plus" class="w-5 h-5 mr-2"></i>Add News
+                        </button>
+                    </div>
+                    <div id="newsPostsList" class="space-y-4"></div>
+                </section>
+
+                <!-- Events Management -->
+                <section id="segment-events" class="segment hidden fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-[#194341]">Events Management</h2>
+                        <button id="addEvent" class="bg-[#FFCD28] text-black font-bold px-4 py-2 rounded-lg shadow hover:bg-yellow-300 transition">
+                            <i data-lucide="plus" class="w-5 h-5 mr-2"></i>Add Event
+                        </button>
+                    </div>
+                    <div id="eventsList" class="space-y-4"></div>
+                </section>
+
+                <!-- Scholarship Content -->
+                <section id="segment-scholarship" class="segment hidden fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-[#194341]">Scholarship Content</h2>
+                        <button id="addScholarshipContent" class="bg-[#FFCD28] text-black font-bold px-4 py-2 rounded-lg shadow hover:bg-yellow-300 transition">
+                            <i data-lucide="plus" class="w-5 h-5 mr-2"></i>Add Content
+                        </button>
+                    </div>
+                    <div id="scholarshipContentList" class="space-y-4"></div>
+                </section>
+
+                <!-- Grants Content -->
+                <section id="segment-grants" class="segment hidden fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-[#194341]">Grant for Artisans Content</h2>
+                        <button id="addGrantsContent" class="bg-[#FFCD28] text-black font-bold px-4 py-2 rounded-lg shadow hover:bg-yellow-300 transition">
+                            <i data-lucide="plus" class="w-5 h-5 mr-2"></i>Add Content
+                        </button>
+                    </div>
+                    <div id="grantsContentList" class="space-y-4"></div>
+                </section>
+
+                <!-- Career Counseling Content -->
+                <section id="segment-career" class="segment hidden fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-[#194341]">Career Counseling Content</h2>
+                        <button id="addCareerContent" class="bg-[#FFCD28] text-black font-bold px-4 py-2 rounded-lg shadow hover:bg-yellow-300 transition">
+                            <i data-lucide="plus" class="w-5 h-5 mr-2"></i>Add Content
+                        </button>
+                    </div>
+                    <div id="careerContentList" class="space-y-4"></div>
+                </section>
+
+                <!-- Testimonials -->
+                <section id="segment-testimonials" class="segment hidden fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-[#194341]">Testimonials</h2>
+                        <button id="addTestimonial" class="bg-[#FFCD28] text-black font-bold px-4 py-2 rounded-lg shadow hover:bg-yellow-300 transition">
+                            <i data-lucide="plus" class="w-5 h-5 mr-2"></i>Add Testimonial
+                        </button>
+                    </div>
+                    <div id="testimonialsList" class="space-y-4"></div>
+                </section>
+
+                <!-- News Ticker -->
+                <section id="segment-news-ticker" class="segment hidden fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-[#194341]">News Ticker</h2>
+                        <button id="addNewsTicker" class="bg-[#FFCD28] text-black font-bold px-4 py-2 rounded-lg shadow hover:bg-yellow-300 transition">
+                            <i data-lucide="plus" class="w-5 h-5 mr-2"></i>Add Ticker Item
+                        </button>
+                    </div>
+                    <div id="newsTickerList" class="space-y-4"></div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modals for forms will be dynamically added -->
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Global variables
+        let currentUser = null;
+        let currentSegment = 'dashboard';
+        const API_BASE_URL = 'http://localhost:3000/api';
+
+        // Helper function to get authorization headers
+        function getAuthHeaders() {
+            const token = localStorage.getItem('token');
+            return {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            };
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            setupEventListeners();
+            loadDashboardStats();
+            showSegment('dashboard');
+        });
+
+        // Check authentication
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'admin-login.html';
+                return;
+            }
+
+            fetch(`${API_BASE_URL}/auth/verify`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.user || data.user.role !== 'admin') {
+                    window.location.href = 'admin-login.html';
+                } else {
+                    currentUser = data.user;
+                }
+            })
+            .catch(error => {
+                console.error('Auth check failed:', error);
+                window.location.href = 'admin-login.html';
+            });
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // DOM elements
+            const sidebar = document.getElementById('adminSidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            // Sidebar toggle
+            sidebarToggle.addEventListener('click', function() {
+                if (sidebar.classList.contains('-translate-x-full')) {
+                    sidebar.classList.remove('-translate-x-full');
+                    sidebarOverlay.classList.remove('hidden');
+                } else {
+                    sidebar.classList.add('-translate-x-full');
+                    sidebarOverlay.classList.add('hidden');
+                }
+            });
+            sidebarOverlay.addEventListener('click', function() {
+                sidebar.classList.add('-translate-x-full');
+                sidebarOverlay.classList.add('hidden');
+            });
+
+            // Sidebar navigation
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.addEventListener('click', function() {
+                    const segment = this.dataset.segment;
+                    showSegment(segment);
+                    closeSidebar();
+                });
+            });
+
+            // Logout
+            logoutBtn.addEventListener('click', logout);
+
+            // Add content buttons
+            document.getElementById('addHomepageContent').addEventListener('click', () => showContentForm('homepage'));
+            document.getElementById('addNewsPost').addEventListener('click', () => showContentForm('news'));
+            document.getElementById('addEvent').addEventListener('click', () => showContentForm('events'));
+            document.getElementById('addScholarshipContent').addEventListener('click', () => showContentForm('scholarship'));
+            document.getElementById('addGrantsContent').addEventListener('click', () => showContentForm('grants'));
+            document.getElementById('addCareerContent').addEventListener('click', () => showContentForm('career'));
+            document.getElementById('addTestimonial').addEventListener('click', () => showContentForm('testimonials'));
+            document.getElementById('addNewsTicker').addEventListener('click', () => showNewsTickerForm());
+        }
+
+
+
+        // Show segment
+        function showSegment(segmentId) {
+            // Hide all segments
+            document.querySelectorAll('.segment').forEach(segment => {
+                segment.classList.add('hidden');
+            });
+
+            // Show selected segment
+            const targetSegment = document.getElementById(`segment-${segmentId}`);
+            if (targetSegment) {
+                targetSegment.classList.remove('hidden');
+                currentSegment = segmentId;
+
+                // Load data for the segment
+                loadSegmentData(segmentId);
+            }
+        }
+
+        // Load dashboard stats
+        async function loadDashboardStats() {
+            try {
+                const [postsRes, eventsRes, testimonialsRes] = await Promise.all([
+                    fetch(`${API_BASE_URL}/content/posts?status=published`, {
+                        headers: getAuthHeaders()
+                    }),
+                    fetch(`${API_BASE_URL}/content/posts/category/events`, {
+                        headers: getAuthHeaders()
+                    }),
+                    fetch(`${API_BASE_URL}/content/posts/category/testimonials`, {
+                        headers: getAuthHeaders()
+                    })
+                ]);
+
+                const posts = await postsRes.json();
+                const events = await eventsRes.json();
+                const testimonials = await testimonialsRes.json();
+
+                document.getElementById('totalPosts').textContent = posts.total || 0;
+                document.getElementById('activeEvents').textContent = events.length || 0;
+                document.getElementById('totalTestimonials').textContent = testimonials.length || 0;
+            } catch (error) {
+                console.error('Error loading dashboard stats:', error);
+            }
+        }
+
+        // Load segment data
+        async function loadSegmentData(segment) {
+            try {
+                switch(segment) {
+                    case 'homepage':
+                        await loadHomepageContent();
+                        break;
+                    case 'news':
+                        await loadPostsByCategory('news');
+                        break;
+                    case 'events':
+                        await loadPostsByCategory('events');
+                        break;
+                    case 'scholarship':
+                        await loadPostsByCategory('scholarship');
+                        break;
+                    case 'grants':
+                        await loadPostsByCategory('grant-artisans');
+                        break;
+                    case 'career':
+                        await loadPostsByCategory('career-counseling');
+                        break;
+                    case 'testimonials':
+                        await loadPostsByCategory('testimonials');
+                        break;
+                    case 'news-ticker':
+                        await loadNewsTicker();
+                        break;
+                }
+            } catch (error) {
+                console.error(`Error loading ${segment} data:`, error);
+            }
+        }
+
+        // Load posts by category
+        async function loadPostsByCategory(category) {
+            const response = await fetch(`${API_BASE_URL}/content/posts?category=${category}`, {
+                headers: getAuthHeaders()
+            });
+            const data = await response.json();
+            const container = document.getElementById(`${category.replace('-', '')}ContentList`) ||
+                            document.getElementById(`${category}PostsList`) ||
+                            document.getElementById(`${category}List`);
+
+            if (container) {
+                container.innerHTML = data.posts.map(post => createPostCard(post)).join('');
+            }
+        }
+
+        // Load homepage content
+        async function loadHomepageContent() {
+            const response = await fetch(`${API_BASE_URL}/content/homepage`, {
+                headers: getAuthHeaders()
+            });
+            const data = await response.json();
+            const container = document.getElementById('homepageContentList');
+            container.innerHTML = data.map(item => createHomepageCard(item)).join('');
+        }
+
+        // Load news ticker
+        async function loadNewsTicker() {
+            const response = await fetch(`${API_BASE_URL}/content/news-ticker`, {
+                headers: getAuthHeaders()
+            });
+            const data = await response.json();
+            const container = document.getElementById('newsTickerList');
+            container.innerHTML = data.map(item => createNewsTickerCard(item)).join('');
+        }
+
+        // Create post card
+        function createPostCard(post) {
+            return `
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-lg font-semibold text-[#194341]">${post.title}</h3>
+                            <p class="text-sm text-gray-500">${new Date(post.created_at).toLocaleDateString()}</p>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="editPost(${post.id})" class="text-blue-600 hover:text-blue-800">
+                                <i data-lucide="edit" class="w-5 h-5"></i>
+                            </button>
+                            <button onclick="deletePost(${post.id})" class="text-red-600 hover:text-red-800">
+                                <i data-lucide="trash" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4">${post.excerpt || post.content.substring(0, 150)}...</p>
+                    <div class="flex items-center justify-between">
+                        <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-sm">${post.status}</span>
+                        ${post.image_url ? `<img src="${post.image_url}" alt="Post image" class="w-16 h-16 object-cover rounded">` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Create homepage card
+        function createHomepageCard(item) {
+            return `
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-lg font-semibold text-[#194341]">${item.title || item.section}</h3>
+                            <p class="text-sm text-gray-500">Section: ${item.section}</p>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="editHomepageContent(${item.id})" class="text-blue-600 hover:text-blue-800">
+                                <i data-lucide="edit" class="w-5 h-5"></i>
+                            </button>
+                            <button onclick="deleteHomepageContent(${item.id})" class="text-red-600 hover:text-red-800">
+                                <i data-lucide="trash" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4">${item.content ? item.content.substring(0, 150) : 'No content'}...</p>
+                    <div class="flex items-center justify-between">
+                        <span class="px-2 py-1 ${item.is_active ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'} rounded text-sm">
+                            ${item.is_active ? 'Active' : 'Inactive'}
+                        </span>
+                        ${item.image_url ? `<img src="${item.image_url}" alt="Content image" class="w-16 h-16 object-cover rounded">` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Create news ticker card
+        function createNewsTickerCard(item) {
+            return `
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex-1">
+                            <p class="text-gray-700">${item.content}</p>
+                            <p class="text-sm text-gray-500 mt-2">${new Date(item.created_at).toLocaleDateString()}</p>
+                        </div>
+                        <div class="flex space-x-2 ml-4">
+                            <button onclick="editNewsTicker(${item.id})" class="text-blue-600 hover:text-blue-800">
+                                <i data-lucide="edit" class="w-5 h-5"></i>
+                            </button>
+                            <button onclick="deleteNewsTicker(${item.id})" class="text-red-600 hover:text-red-800">
+                                <i data-lucide="trash" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="px-2 py-1 ${item.is_active ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'} rounded text-sm">
+                            ${item.is_active ? 'Active' : 'Inactive'}
+                        </span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Show homepage form
+        function showHomepageForm(editData = null) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.id = 'homepageModal';
+
+            const isEdit = editData !== null;
+            const title = isEdit ? 'Edit Homepage Content' : 'Add Homepage Content';
+
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-[#194341]">${title}</h2>
+                        <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <form id="homepageForm" class="space-y-4">
+                        <input type="hidden" id="homepageId" value="${editData?.id || ''}">
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Section</label>
+                            <select id="homepageSection" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFCD28]" required>
+                                <option value="hero" ${editData?.section === 'hero' ? 'selected' : ''}>Hero Section</option>
+                                <option value="about" ${editData?.section === 'about' ? 'selected' : ''}>About Section</option>
+                                <option value="mission" ${editData?.section === 'mission' ? 'selected' : ''}>Mission Section</option>
+                                <option value="impact" ${editData?.section === 'impact' ? 'selected' : ''}>Impact Section</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                            <input type="text" id="homepageTitle" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFCD28]" value="${editData?.title || ''}" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Content</label>
+                            <textarea id="homepageContent" rows="6" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFCD28]" required>${editData?.content || ''}</textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Image URL (optional)</label>
+                            <input type="url" id="homepageImage" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFCD28]" value="${editData?.image_url || ''}" placeholder="https://example.com/image.jpg">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Sort Order</label>
+                                <input type="number" id="homepageSortOrder" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFCD28]" value="${editData?.sort_order || 0}" min="0">
+                            </div>
+
+                            <div class="flex items-center pt-6">
+                                <input type="checkbox" id="homepageActive" class="mr-2" ${editData?.is_active !== false ? 'checked' : ''}>
+                                <label class="text-sm font-medium text-gray-700">Active</label>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end space-x-3 pt-4">
+                            <button type="button" onclick="closeModal()" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50">Cancel</button>
+                            <button type="submit" class="px-4 py-2 bg-[#FFCD28] text-black font-bold rounded-md hover:bg-yellow-300">
+                                ${isEdit ? 'Update' : 'Create'} Homepage Content
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Handle form submission
+            document.getElementById('homepageForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await saveHomepageContent();
+            });
+        }
+
+        // Save homepage content
+        async function saveHomepageContent() {
+            const formData = {
+                section: document.getElementById('homepageSection').value,
+                title: document.getElementById('homepageTitle').value,
+                content: document.getElementById('homepageContent').value,
+                image_url: document.getElementById('homepageImage').value,
+                sort_order: parseInt(document.getElementById('homepageSortOrder').value) || 0,
+                is_active: document.getElementById('homepageActive').checked
+            };
+
+            const contentId = document.getElementById('homepageId').value;
+            const isEdit = contentId !== '';
+
+            try {
+                const url = isEdit ? `${API_BASE_URL}/content/homepage/${contentId}` : `${API_BASE_URL}/content/homepage`;
+                const method = isEdit ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    closeModal();
+                    loadHomepageContent();
+                    loadDashboardStats();
+                    alert(`Homepage content ${isEdit ? 'updated' : 'created'} successfully!`);
+                } else {
+                    const error = await response.json();
+                    alert(`Error: ${error.error || 'Failed to save homepage content'}`);
+                }
+            } catch (error) {
+                console.error('Error saving homepage content:', error);
+                alert('Failed to save homepage content. Please try again.');
+            }
+        }
+
+        // Show content form
+        function showContentForm(type, editData = null) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.id = 'contentModal';
+
+            const isEdit = editData !== null;
+            const title = isEdit ? `Edit ${type} Content` : `Add ${type} Content`;
+
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-[#194341]">${title}</h2>
+                        <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <form id="contentForm" class="space-y-4">
+                        <input type="hidden" id="contentId" value="${editData?.id || ''}">
+                        <input type="hidden" id="contentType" value="${type}">
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                            <input type="text" id="contentTitle" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFCD28]" value="${editData?.title || ''}" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Content</label>
+                            <textarea id="contentBody" rows="6" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFCD28]" required>${editData?.content || ''}</textarea>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                                <select id="contentCategory" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFCD28]">
+                                    <option value="${type}" selected>${type}</option>
+                                    <option value="homepage">Homepage</option>
+                                    <option value="news">News</option>
+                                    <option value="events">Events</option>
+                                    <option value="scholarship">Scholarship</option>
+                                    <option value="grants">Grants</option>
+                                    <option value="career">Career</option>
+                                    <option value="testimonials">Testimonials</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                                <select id="contentStatus" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFCD28]">
+                                    <option value="draft" ${editData?.status === 'draft' ? 'selected' : ''}>Draft</option>
+                                    <option value="published" ${editData?.status === 'published' ? 'selected' : ''}>Published</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Image URL (optional)</label>
+                            <input type="url" id="contentImage" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFCD28]" value="${editData?.image_url || ''}" placeholder="https://example.com/image.jpg">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Upload Image (phone or desktop)</label>
+                            <input type="file" id="contentImageFile" accept="image/*" class="w-full text-sm text-gray-600" />
+                            <p class="text-xs text-gray-500 mt-1">Choose a photo from your phone file manager to upload.</p>
+                        </div>
+                        ${editData?.image_url ? `<div class="mt-2"><img src="${editData.image_url}" class="w-24 h-24 object-cover rounded-md" alt="Current image"></div>` : ''}
+                        <div class="flex items-center">
+                            <input type="checkbox" id="contentFeatured" class="mr-2" ${editData?.is_featured ? 'checked' : ''}>
+                            <label class="text-sm font-medium text-gray-700">Featured Content</label>
+                        </div>
+
+                        <div class="flex justify-end space-x-3 pt-4">
+                            <button type="button" onclick="closeModal()" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50">Cancel</button>
+                            <button type="submit" class="px-4 py-2 bg-[#FFCD28] text-black font-bold rounded-md hover:bg-yellow-300">
+                                ${isEdit ? 'Update' : 'Create'} Content
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Handle form submission
+            document.getElementById('contentForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await saveContent();
+            });
+        }
+
+        // Save content
+        async function saveContent() {
+            const imageFile = document.getElementById('contentImageFile').files[0];
+            const imageUrl = document.getElementById('contentImage').value.trim();
+            const formData = new FormData();
+
+            formData.append('title', document.getElementById('contentTitle').value);
+            formData.append('content', document.getElementById('contentBody').value);
+            formData.append('category', document.getElementById('contentCategory').value);
+            formData.append('status', document.getElementById('contentStatus').value);
+            formData.append('is_featured', document.getElementById('contentFeatured').checked);
+
+            if (imageFile) {
+                formData.append('image', imageFile);
+            } else if (imageUrl) {
+                formData.append('image_url', imageUrl);
+            }
+
+            const contentId = document.getElementById('contentId').value;
+            const isEdit = contentId !== '';
+
+            try {
+                const url = isEdit ? `${API_BASE_URL}/content/posts/${contentId}` : `${API_BASE_URL}/content/posts`;
+                const method = isEdit ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: formData
+                });
+
+                if (response.ok) {
+                    closeModal();
+                    loadSegmentData(currentSegment);
+                    loadDashboardStats();
+                    alert(`Content ${isEdit ? 'updated' : 'created'} successfully!`);
+                } else {
+                    const error = await response.json();
+                    alert(`Error: ${error.error || 'Failed to save content'}`);
+                }
+            } catch (error) {
+                console.error('Error saving content:', error);
+                alert('Failed to save content. Please try again.');
+            }
+        }
+
+        // Close modal
+        function closeModal() {
+            const modal = document.getElementById('contentModal') || document.getElementById('homepageModal') || document.getElementById('newsTickerModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = 'admin-login.html';
+        }
+
+        // Edit post
+        async function editPost(id) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/content/posts/${id}`, {
+                    headers: getAuthHeaders()
+                });
+
+                if (response.ok) {
+                    const post = await response.json();
+                    showContentForm(post.category, post);
+                } else {
+                    alert('Failed to load post for editing');
+                }
+            } catch (error) {
+                console.error('Error loading post:', error);
+                alert('Failed to load post for editing');
+            }
+        }
+
+        // Delete post
+        async function deletePost(id) {
+            if (!confirm('Are you sure you want to delete this post?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/content/posts/${id}`, {
+                    method: 'DELETE',
+                    headers: getAuthHeaders()
+                });
+
+                if (response.ok) {
+                    // Reload the current segment data
+                    loadSegmentData(currentSegment);
+                    loadDashboardStats();
+                    alert('Post deleted successfully!');
+                } else {
+                    alert('Failed to delete post');
+                }
+            } catch (error) {
+                console.error('Error deleting post:', error);
+                alert('Failed to delete post');
+            }
+        }
+        // Edit homepage content
+        async function editHomepageContent(id) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/content/homepage`, {
+                    headers: getAuthHeaders()
+                });
+
+                if (response.ok) {
+                    const content = await response.json();
+                    const item = content.find(item => item.id == id);
+                    if (item) {
+                        showHomepageForm(item);
+                    } else {
+                        alert('Homepage content not found');
+                    }
+                } else {
+                    alert('Failed to load homepage content for editing');
+                }
+            } catch (error) {
+                console.error('Error loading homepage content:', error);
+                alert('Failed to load homepage content for editing');
+            }
+        }
+
+        // Delete homepage content
+        async function deleteHomepageContent(id) {
+            if (!confirm('Are you sure you want to delete this homepage content?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/content/homepage/${id}`, {
+                    method: 'DELETE',
+                    headers: getAuthHeaders()
+                });
+
+                if (response.ok) {
+                    loadHomepageContent();
+                    loadDashboardStats();
+                    alert('Homepage content deleted successfully!');
+                } else {
+                    alert('Failed to delete homepage content');
+                }
+            } catch (error) {
+                console.error('Error deleting homepage content:', error);
+                alert('Failed to delete homepage content');
+            }
+        }
+
+        // Show news ticker form
+        function showNewsTickerForm(editData = null) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.id = 'newsTickerModal';
+
+            const isEdit = editData !== null;
+            const title = isEdit ? 'Edit News Ticker' : 'Add News Ticker Item';
+
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg p-6 w-full max-w-2xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-[#194341]">${title}</h2>
+                        <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <form id="newsTickerForm" class="space-y-4">
+                        <input type="hidden" id="newsTickerId" value="${editData?.id || ''}">
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                            <input type="text" id="newsTickerMessage" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFCD28]" value="${editData?.message || ''}" required placeholder="Enter news ticker message">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Link URL (optional)</label>
+                            <input type="url" id="newsTickerLink" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFCD28]" value="${editData?.link_url || ''}" placeholder="https://example.com">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Sort Order</label>
+                                <input type="number" id="newsTickerSortOrder" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFCD28]" value="${editData?.sort_order || 0}" min="0">
+                            </div>
+
+                            <div class="flex items-center pt-6">
+                                <input type="checkbox" id="newsTickerActive" class="mr-2" ${editData?.is_active !== false ? 'checked' : ''}>
+                                <label class="text-sm font-medium text-gray-700">Active</label>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end space-x-3 pt-4">
+                            <button type="button" onclick="closeModal()" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50">Cancel</button>
+                            <button type="submit" class="px-4 py-2 bg-[#FFCD28] text-black font-bold rounded-md hover:bg-yellow-300">
+                                ${isEdit ? 'Update' : 'Create'} News Ticker
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Handle form submission
+            document.getElementById('newsTickerForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await saveNewsTicker();
+            });
+        }
+
+        // Save news ticker
+        async function saveNewsTicker() {
+            const formData = {
+                message: document.getElementById('newsTickerMessage').value,
+                link_url: document.getElementById('newsTickerLink').value,
+                sort_order: parseInt(document.getElementById('newsTickerSortOrder').value) || 0,
+                is_active: document.getElementById('newsTickerActive').checked
+            };
+
+            const tickerId = document.getElementById('newsTickerId').value;
+            const isEdit = tickerId !== '';
+
+            try {
+                const url = isEdit ? `${API_BASE_URL}/content/news-ticker/${tickerId}` : `${API_BASE_URL}/content/news-ticker`;
+                const method = isEdit ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    closeModal();
+                    loadNewsTicker();
+                    loadDashboardStats();
+                    alert(`News ticker ${isEdit ? 'updated' : 'created'} successfully!`);
+                } else {
+                    const error = await response.json();
+                    alert(`Error: ${error.error || 'Failed to save news ticker'}`);
+                }
+            } catch (error) {
+                console.error('Error saving news ticker:', error);
+                alert('Failed to save news ticker. Please try again.');
+            }
+        }
+
+        // Edit news ticker
+        async function editNewsTicker(id) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/content/news-ticker`, {
+                    headers: getAuthHeaders()
+                });
+
+                if (response.ok) {
+                    const ticker = await response.json();
+                    const item = ticker.find(item => item.id == id);
+                    if (item) {
+                        showNewsTickerForm(item);
+                    } else {
+                        alert('News ticker item not found');
+                    }
+                } else {
+                    alert('Failed to load news ticker for editing');
+                }
+            } catch (error) {
+                console.error('Error loading news ticker:', error);
+                alert('Failed to load news ticker for editing');
+            }
+        }
+
+        // Delete news ticker
+        async function deleteNewsTicker(id) {
+            if (!confirm('Are you sure you want to delete this news ticker item?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/content/news-ticker/${id}`, {
+                    method: 'DELETE',
+                    headers: getAuthHeaders()
+                });
+
+                if (response.ok) {
+                    loadNewsTicker();
+                    loadDashboardStats();
+                    alert('News ticker deleted successfully!');
+                } else {
+                    alert('Failed to delete news ticker');
+                }
+            } catch (error) {
+                console.error('Error deleting news ticker:', error);
+                alert('Failed to delete news ticker');
+            }
+        }
+    </script>
+</body>
+</html>
