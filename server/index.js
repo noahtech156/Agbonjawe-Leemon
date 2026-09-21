@@ -38,6 +38,10 @@ app.use('/api/students', require('./routes/students'));
 app.use('/content', require('./routes/content'));
 app.use('/events', require('./routes/events'));
 
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
 // Serve static HTML files
 app.use(express.static(path.join(__dirname, '..')));
 
@@ -85,7 +89,6 @@ async function initDB() {
 
     if (!adminExists) {
       const hashed = await bcrypt.hash('Admin@ALIF2026', 10);
-
       await Admin.create({
         name: 'Super Admin',
         email: 'admin@alikpeafoundation.org',
@@ -154,8 +157,10 @@ async function initDB() {
     }
 
     // -------------------------------------------------
-    // Seed test student
+    // Seed test student outside production
     // -------------------------------------------------
+
+    if (process.env.NODE_ENV !== 'production') {
 
     const studentTestEmail =
       'teststudent@alikpeafoundation.org';
@@ -216,6 +221,8 @@ async function initDB() {
       console.log(
         `✅ Test student created: ${studentTestEmail}`
       );
+    }
+
     }
 
     console.log('✅ Database initialization complete');

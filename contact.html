@@ -58,12 +58,17 @@
           animation: marquee 25s linear infinite;
         }
         .animate-marquee:hover { animation-play-state: paused; }
+        @media (max-width: 767px) {
+            body { overflow-x: hidden; }
+            footer .flex.justify-between { flex-wrap: wrap; gap: 12px; }
+            footer .flex.justify-between > div { flex-wrap: wrap; }
+        }
     </style>
 </head>
 <body class="bg-white">
         <div class="bg-alifTeal py-2 overflow-hidden border-b border-white/10">
             <div class="animate-marquee text-white text-xs font-bold uppercase tracking-[0.2em]">
-                LATEST NEWS: ALIF Scholarship Application for 2026 now open • Chief (Dr.) Leemon A. Ikepa receives humanitarian award • Mentoring session scheduled for next week •
+                LATEST NEWS: ALIF Scholarship Application for 2026 now open • Chief (Dr.) Leemon A. Ikpea receives humanitarian award • Mentoring session scheduled for next week •
             </div>
         </div>
      <!-- Navbar -->

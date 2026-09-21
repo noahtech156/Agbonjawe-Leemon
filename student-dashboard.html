@@ -26,6 +26,22 @@
     .badge-rejected { background:#FEE2E2; color:#991B1B; }
     .badge-paid { background:#DBEAFE; color:#1E40AF; }
     .badge-review { background:#DBEAFE; color:#1E40AF; }
+    @media (max-width: 767px) {
+      body { overflow-x:hidden; }
+      .sidebar { width:100%; min-height:0; }
+      .sidebar > nav { display:flex; gap:6px; overflow-x:auto; padding:10px; }
+      .sidebar > nav .nav-item { flex:0 0 auto; padding:10px 12px; font-size:12px; white-space:nowrap; }
+      .sidebar > div:last-child { padding:10px; }
+      .sidebar > div:last-child .nav-item { justify-content:center; }
+      main { min-width:0; }
+      main > header { padding:14px 16px; gap:12px; align-items:flex-start; }
+      main > header > div:last-child { flex-shrink:0; }
+      main > header .badge { max-width:130px; text-align:center; }
+      main > div { padding:16px; }
+      .card { padding:16px; border-radius:16px; }
+      #docs-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      table { min-width:640px; }
+    }
   </style>
 </head>
 <body>

@@ -6,6 +6,18 @@
   <title>Admin Support - ALIF</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>tailwind.config={theme:{extend:{colors:{alifTeal:'#194341',alifYellow:'#FFCD28',alifGreen:'#2CB770',textGray:'#5F6973'}}}}</script>
+  <style>
+    @media (max-width: 767px) {
+      body { padding:16px; }
+      body > div { padding:16px; }
+      body > div > h1 { font-size:1.35rem; line-height:1.3; }
+      body > div > div { flex-wrap:wrap; }
+      body > div > div > input { min-width:100%; }
+      body > div > div > button { flex:1; }
+      #list { overflow-x:auto; }
+      #list table { min-width:620px; }
+    }
+  </style>
 </head>
 <body class="bg-gray-50 p-6">
   <div class="max-w-5xl mx-auto bg-white rounded-xl p-6">

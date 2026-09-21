@@ -27,6 +27,22 @@
     .btn-danger{background:#FEE2E2;color:#991B1B;}
     .btn-danger:hover{background:#FECACA;}
     .event-card{background:white;border:1px solid #e2e8f0;border-radius:16px;overflow:hidden;}
+    @media (max-width: 767px) {
+      body { overflow-x:hidden; }
+      body > .flex { flex-direction:column; }
+      .sidebar { width:100%; min-height:0; }
+      .sidebar nav { display:flex; gap:6px; overflow-x:auto; padding:10px; }
+      .sidebar .nav-item { flex:0 0 auto; white-space:nowrap; padding:10px 12px; font-size:12px; }
+      .sidebar > div:last-child { padding:10px; }
+      .sidebar > div:last-child .nav-item { justify-content:center; }
+      main { min-width:0; }
+      main > header { padding:14px 16px; gap:8px; align-items:flex-start; flex-wrap:wrap; }
+      main > header span { font-size:12px; }
+      main > div { padding:16px; }
+      .card { padding:16px; border-radius:16px; }
+      .tab-btn { padding:8px 12px; }
+      input[type=file] { max-width:100%; }
+    }
   </style>
 </head>
 <body>
